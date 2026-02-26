@@ -1,101 +1,57 @@
-"""Seminar 3 — Hedonometer / labMT 1.0 demo analysis
-
-This script is intentionally written in a *step-by-step* style (more like a
-notebook than a software package). The goal is to make each move legible:
-
-- load a real dataset
-- look at its structure and missing values
-- run a few sanity checks
-- make a handful of simple plots and tables
-
-It follows the same sequence as the Seminar 3 assignment tasks.
-
-Run (from the project root):
-    python src/hedonometer_labmt_demo.py
-
-What you get after running:
-- figures/  (PNG plots)
-- tables/   (CSV tables you can open in Excel/Numbers)
-
-Dataset:
-- data/raw/Data_Set_S1.txt
-  (tab-delimited; the first 3 lines are metadata, then the header row)
-
-Dependencies (see requirements.txt):
-- pandas
-- numpy
-- matplotlib
-"""
+from __future__ import annotations
 
 from pathlib import Path
-
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+
+# === 路径设置：根据当前脚本的位置，自动找到项目根目录 ===
+# 当前文件在 hedonometer-project-group6/src/load_labmt.py
+# parents[0] -> src
+# parents[1] -> hedonometer-project-group6  (项目根目录)
+BASE_DIR = Path(__file__).resolve().parents[1]
+
+# 数据文件就在 项目根目录/data/raw/Data_Set_S1.txt
+RAW_PATH = BASE_DIR / "data" / "raw" / "Data_Set_S1.txt"
 
 
-# -----------------------------------------------------------------------------
-# Small helpers
-# -----------------------------------------------------------------------------
-# These are the only functions in this file. Everything else runs sequentially.
-# We use helpers only for repeated patterns (printing sections, saving outputs).
+def load_labmt(path: Path = RAW_PATH) -> pd.DataFrame:
+    """
+    Load labMT 1.0 tab-delimited file.
+
+    Assumptions from assignment:
+    - File may contain metadata/comment lines before the header.
+    - Missing ranks are represented as '--'.
+    """
 
 
-def print_section(title: str) -> None:
-    """Print a clear section divider in the terminal."""
-    bar = "=" * 90
-    print("\n" + bar)
-    print(title)
-    print(bar)
+    # 读取整个文件，找到真正的表头行
+    lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
 
+    # 启发式：表头那一行里既有 'word' 又有 'happiness'
+    header_idx: int | None = None
+    for i, line in enumerate(lines[:200]):  # header 应该在文件前 200 行之内
+        if "\t" in line and "word" in line.lower() and "happiness" in line.lower():
+            header_idx = i
+            break
 
-def save_csv(df: pd.DataFrame, filename: str, index: bool = False) -> None:
-    """Save a DataFrame to tables/ and print where it went."""
-    out_path = TABLES_DIR / filename
-    df.to_csv(out_path, index=index)
-    print(f"Saved table: {out_path}")
+    if header_idx is None:
+        raise ValueError(
+            "Could not find header row. Inspect the raw file and adjust header detection."
+        )
 
-
-def save_figure(filename: str, dpi: int = 200) -> None:
-    """Save the current matplotlib figure to figures/ and print where it went."""
-    out_path = FIGURES_DIR / filename
-    plt.savefig(out_path, dpi=dpi)
-    print(f"Saved figure: {out_path}")
-
-
-# -----------------------------------------------------------------------------
-# Project paths
-# -----------------------------------------------------------------------------
-# We build file paths relative to THIS script, so the code works on any machine
-# as long as the folder structure is the same.
-
-ROOT = Path(__file__).resolve().parents[1]
-DATA_PATH = ROOT / "data" / "raw" / "Data_Set_S1.txt"
-
-FIGURES_DIR = ROOT / "figures"
-TABLES_DIR = ROOT / "tables"
-
-FIGURES_DIR.mkdir(exist_ok=True)
-TABLES_DIR.mkdir(exist_ok=True)
-
-
-# -----------------------------------------------------------------------------
-# 1. LOAD, CLEAN, AND DESCRIBE THE DATASET
-# -----------------------------------------------------------------------------
-
-print_section("1.1 Load the dataset (Data_Set_S1.txt)")
-
-if not DATA_PATH.exists():
-    raise FileNotFoundError(
-        "Dataset not found. Expected to find: "
-        f"{DATA_PATH}\n\n"
-        "Make sure Data_Set_S1.txt is in data/raw/ and try again."
+    # 从表头开始，用 pandas 读入
+    df = pd.read_csv(
+        path,
+        sep="\t",
+        skiprows=header_idx,
+        na_values=["--"],        # 把 '--' 当作缺失值
+        keep_default_na=True,
+        dtype=str,               # 先按字符串读，后面再转数值
     )
 
-# The file begins with 3 lines of metadata, then a header row.
-# The rank columns use '--' to mean "this word is NOT in that corpus's top-5000".
-# We convert '--' to a proper missing value (NaN) so pandas can work with it.
+    # 去掉列名两端的空格
+    df.columns = [c.strip() for c in df.columns]
 
+<<<<<<< HEAD
 df = pd.read_csv(
     DATA_PATH,
     sep="\t",
@@ -130,26 +86,34 @@ print("\nShape (rows, columns):", df.shape)
 
 # A small preview table can be useful for quick inspection.
 save_csv(df.head(50), "preview_first_50_rows.csv", index=False)
+=======
+    # 除了 'word' 以外的列都尝试转成数值
+    numeric_cols = [c for c in df.columns if c != "word"]
+    for c in numeric_cols:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    # 处理 word 列：转成字符串并去掉空格
+    df["word"] = df["word"].astype(str).str.strip()
+
+    return df
+>>>>>>> 377daced21773e90347cb998f7f89500bd341f4e
 
 
-print_section("1.2 Data dictionary + missing values")
+def main() -> None:
+    df = load_labmt()
 
-# A "data dictionary" is a plain-language explanation of each column.
-# Here we create a table with:
-# - column name
-# - pandas dtype
-# - number of missing values
-# - one example value
+    # === 1.1 + 1.2 + 1.3 所有需要的输出 ===
 
-col_dtypes = df.dtypes.astype(str).reset_index()
-col_dtypes.columns = ["column", "dtype"]
+    # 1) 形状（行 × 列）
+    print("Shape (rows, cols):", df.shape)
 
-missing = df.isna().sum().reset_index()
-missing.columns = ["column", "n_missing"]
+    # 2) 列名列表
+    print("\nColumns:", list(df.columns))
 
-example_values = df.iloc[0].reset_index()
-example_values.columns = ["column", "example_value"]
+    # 3) 每一列的数据类型（data dictionary 用）
+    print("\nData types:\n", df.dtypes)
 
+<<<<<<< HEAD
 data_dictionary = col_dtypes.merge(missing, on="column").merge(example_values, on="column")
 
 print(data_dictionary.to_string(index=False))
@@ -421,3 +385,20 @@ print_section("Done")
 print("If you embed figures in a README, use relative paths like:  ![](figures/your_plot.png)")
 print("Figures folder:", FIGURES_DIR)
 print("Tables folder:", TABLES_DIR)
+=======
+    # 4) 每列缺失值数量
+    print(
+        "\nMissing values per column:\n",
+        df.isna().sum().sort_values(ascending=False),
+    )
+
+    # 5) 单词是否有重复
+    print("\nDuplicate words:", df["word"].duplicated().sum())
+
+    # 6) 随机抽样 15 行
+    print("\nSample rows:\n", df.sample(15, random_state=42))
+
+
+if __name__ == "__main__":
+    main()
+>>>>>>> 377daced21773e90347cb998f7f89500bd341f4e
