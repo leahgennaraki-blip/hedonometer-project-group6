@@ -102,10 +102,12 @@ df = pd.read_csv(
     skiprows=3,
     na_values=["--"],
     encoding="utf-8",
+    dtype={"word": "string"}
 )
 
 # Convert numeric columns to numeric dtypes.
 # (When a column has missing values, pandas often uses floats to allow NaN.)
+# Explicitly set the 'word' column as string to avoid implicit object dtype inference and ensure a clear, reproducible schema.
 
 numeric_cols = [
     "happiness_rank",
@@ -116,8 +118,9 @@ numeric_cols = [
     "nyt_rank",
     "lyrics_rank",
 ]
-for col in numeric_cols:
-    df[col] = pd.to_numeric(df[col], errors="coerce")
+df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors="coerce")
+
+# Convert all numeric columns together to enforce a consistent numeric schema.
 
 df["word"] = df["word"].astype("string")
 
@@ -160,8 +163,14 @@ print("  used to build this dataset (not that the word never appears in Twitter)
 print_section("1.3 Sanity checks")
 
 # (A) Duplicated words
-n_duplicates = int(df["word"].duplicated().sum())
+duplicates = df[df["word"].duplicated()]
+n_duplicates = len(duplicates)
+if not duplicates.empty:
+    print("Duplicate words found:")
+    print(duplicates)
 print("Duplicated words:", n_duplicates)
+
+# If duplicate words exist, print them for inspection rather than only counting them.
 
 # (B) A reproducible random sample
 sample_15 = df.sample(15, random_state=42)
@@ -217,7 +226,7 @@ save_csv(summary_stats, "happiness_average_summary_stats.csv", index=False)
 
 # Histogram
 plt.figure()
-plt.hist(h, bins=40)
+plt.hist(h, bins=40, edgecolor="black")
 plt.title("Distribution of happiness_average (labMT 1.0)")
 plt.xlabel("happiness_average (1–9)")
 plt.ylabel("number of words")
@@ -230,12 +239,18 @@ print_section("2.2 Disagreement: happiness_standard_deviation")
 
 # Scatter: happiness score vs standard deviation
 plt.figure()
+
+scatter_df = df[["happiness_average", "happiness_standard_deviation"]].dropna()
+
 plt.scatter(
-    df["happiness_average"],
-    df["happiness_standard_deviation"],
+    scatter_df["happiness_average"],
+    scatter_df["happiness_standard_deviation"],
     s=10,
     alpha=0.35,
 )
+
+# Use only complete cases (drop rows with missing values) before plotting.
+
 plt.title("Disagreement vs score: happiness_average vs happiness_standard_deviation")
 plt.xlabel("happiness_average")
 plt.ylabel("happiness_standard_deviation")
@@ -255,20 +270,20 @@ print_section("2.3 Corpus comparison: rank coverage + overlaps")
 rank_cols = ["twitter_rank", "google_rank", "nyt_rank", "lyrics_rank"]
 
 # (A) Coverage: how many words have a rank in each corpus?
-coverage_rows = []
-for col in rank_cols:
-    n_present = int(df[col].notna().sum())
-    coverage_rows.append(
-        {
-            "rank_column": col,
-            "n_words_with_rank": n_present,
-            "share_of_lexicon": n_present / len(df),
-        }
-    )
+coverage = (
+    df[rank_cols]
+    .notna()
+    .sum()
+    .reset_index()
+)
 
-coverage = pd.DataFrame(coverage_rows)
+coverage.columns = ["rank_column", "n_words_with_rank"]
+coverage["share_of_lexicon"] = coverage["n_words_with_rank"] / len(df)
+
 print(coverage.to_string(index=False))
 save_csv(coverage, "corpus_rank_coverage.csv", index=False)
+
+# Replace the loop with a vectorized pandas operation to compute rank coverage more clearly and efficiently.
 
 # Bar chart (coverage)
 plt.figure()
@@ -292,7 +307,11 @@ flags = pd.DataFrame(
 )
 
 labels = ["twitter", "google", "nyt", "lyrics"]
-patterns = flags.apply(lambda row: "+".join([lab for lab in labels if row[lab]]) or "none", axis=1)
+patterns = (
+    flags.astype(int)
+         .astype(str)
+         .agg("".join, axis=1)
+)
 
 pattern_counts = patterns.value_counts().reset_index()
 pattern_counts.columns = ["corpora_present", "n_words"]
@@ -348,16 +367,23 @@ print_section("3.1 Word exhibit (one possible way to select 20 words)")
 # In your project, you should *choose* your words (and justify your choices).
 # Here we generate a starter exhibit automatically to show how you might do it.
 
+# Helper function to avoid repeating sorting logic
+def top_n(df, column, n=5, ascending=False):
+    """
+    Return the top n rows sorted by a given column.
+    """
+    return df.sort_values(column, ascending=ascending).head(n).copy()
+
 # 5 very positive
-pos5 = df.sort_values("happiness_average", ascending=False).head(5).copy()
+pos5 = top_n(df, "happiness_average", n=5, ascending=False)
 pos5["category"] = "very positive"
 
 # 5 very negative
-neg5 = df.sort_values("happiness_average", ascending=True).head(5).copy()
+neg5 = top_n(df, "happiness_average", n=5, ascending=True)
 neg5["category"] = "very negative"
 
 # 5 highly contested (high standard deviation)
-con5 = df.sort_values("happiness_standard_deviation", ascending=False).head(5).copy()
+con5 = top_n(df, "happiness_standard_deviation", n=5, ascending=False)
 con5["category"] = "highly contested"
 
 # 5 platform-specific (frequent in Twitter, missing in NYT)
