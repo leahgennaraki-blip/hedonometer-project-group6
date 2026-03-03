@@ -99,8 +99,11 @@ if not DATA_PATH.exists():
 df = pd.read_csv(
     DATA_PATH,
     sep="\t",
+    #sep="\t"：告诉 pandas 这一行里用制表符（tab）分隔列，而不是逗号
     skiprows=3,
+    #skiprows=3：跳过前 3 行 metadata，不当做数据/表头。
     na_values=["--"],
+    #na_values=["--"]：把文本 -- 直接当成缺失值 NaN。
     encoding="utf-8",
     dtype={"word": "string"}
 )
@@ -118,9 +121,16 @@ numeric_cols = [
     "nyt_rank",
     "lyrics_rank",
 ]
-df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors="coerce")
+df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors="coerce")#errors="coerce"：如果有非数字内容，就变成 NaN（而不是报错）
 
 # Convert all numeric columns together to enforce a consistent numeric schema.
+
+
+#读取 tab 文件 → pd.read_csv
+#跳过注释 → skiprows=3
+#把 -- 变成 NaN → na_values=["--"]
+#数字列变 numeric → pd.to_numeric
+#检查行列数（下一步打印 shape）
 
 df["word"] = df["word"].astype("string")
 
