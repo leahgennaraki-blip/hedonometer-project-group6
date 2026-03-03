@@ -67,7 +67,22 @@ After loading and cleaning, our DataFrame has:
 Shape (rows, cols): (10222, 8)
 
 
-## 3. Quantitative exploration
+## 3. Method section 
+
+
+
+
+## 4. Result section 
+
+
+
+## 5. Qualitative "exhibit" of words
+
+## 6. critical reflection 
+
+## 7. How to run the code 
+
+## 8. Crdits and role
 
 
 
