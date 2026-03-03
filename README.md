@@ -78,6 +78,21 @@ Shape (rows, cols): (10222, 8)
 
 ## 5. Qualitative "exhibit" of words
 
+TL;DR
+In qualitative_exploration.py, we used cleaned data from load_labmt.py and quantitative conclusions from quantitative_exploration.py to create a "summary table" of the top 5 words in categories: "very positive", "very negative", "highly contested", "polarizing".
+
+-We discerned the correlations between and within the columns of tables created in the loading of the data and the quantitative exploration stages.
+-We  built categories that give us the first 5 words as indicative examples that fulfill the categories' requirements, and allow us to have a bird’s-eye view of the dataset, while contingencies and specificity of the categories.
+-We chose to analyse the following categories: 5 very positive, 5 very negative, 5 highly contested, and 5 polarizing. The first two categories are defined by the happiness average score, the highly contested category by a high standard deviation column, and the polarizing category by words that have a near-neutral average but high deviation.
+
+We can observe that the very positive words in our exhibit, such as laughter, happiness, love, happy, have very high happiness scores and low disagreement, and the very negative words (terrorist, suicide, rape, murder) have very low happiness scores and also relatively low disagreement. On the other hand, the highly contested words such as fucking, pussy, and whiskey have very high disagreement scores. This shows that people do not agree on how positive or negative these words are. 
+
+Agreement and disagreement become a useful concept to read this dataset, because they show that the meanings of some words are relatively stable and widely shared (in the highly positive and highly negative categories), while others are unstable and dependent on context. If we were to look only at the very positive or negative categories, it would feel intuitive that these words receive such scores. However, this intuition fades as we move further from these extreme categories to the more neutral words of the dataset. This is exactly where we can see _tension in meaning_. Words closer to the middle of the scale begin to reveal ambiguity. As much as agreement in happiness scores suggests shared understanding in meaning, neutrality but also disagreement reveals limits of consensus. The category of highly contested words disrupts the notion that meaning is stable, showing that words can be interpreted by some as positive and by others as negative. Words such as fucking or pussy may be used differently across generations, genders, or subcultures. In some communities they function as insults and in others they can be even used as terms of empowerment.
+
+Our deliberate choice of polarizing words as an additional concept we can use to analyse this dataset is based on an interest in comparing them to highly contested words and interpret their differences. In the polarizing word category the average happiness score is near neutral, but disagreement is high. In contrast with the highly contested ones, which may still lean slightly positive or negative overall, the polarizing category shows how strong disagreement runs the risk of being obscured in the process of "noise reduction" (ignoring the neutral words in the process of cleaning up the data). Why is that important? Because conscious emotional register does not always reflect the significance of meaning. A word that does not consciously "feel" partiularly happy or sad can be one that people have invested their entire being in (an interesting example is "home", a word perhaps neutral to a privileged person but infinitely emotionally charged for a houseless individual or displaced populations).
+
+
+
 ## 6. critical reflection 
 
 ## 7. How to run the code 
