@@ -139,7 +139,7 @@ def analyse_disagreement(df: pd.DataFrame) -> None:
     print(most_contested_15.to_string(index=False))
 
     save_csv(most_contested_15, "top_15_contested_words.csv", index=False)
-
+    return most_contested_15
 
 # -----------------------------------------------------------------------------
 # 2.3 Corpus comparison: rank coverage + overlaps
