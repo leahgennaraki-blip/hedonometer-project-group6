@@ -93,11 +93,11 @@ Our deliberate choice of polarizing words as an additional concept we can use to
 
 
 
-## 6. critical reflection 
+## 6. Critical reflection 
 
 ## 7. How to run the code 
 
-## 8. Crdits and role
+## 8. Credits and role
 
 
 
