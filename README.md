@@ -206,22 +206,24 @@ We can observe that the very positive words in our exhibit, such as laughter, ha
 
 Agreement and disagreement become a useful concept to read this dataset, because they show that the meanings of some words are relatively stable and widely shared (in the highly positive and highly negative categories), while others are unstable and dependent on context. If we were to look only at the very positive or negative categories, it would feel intuitive that these words receive such scores. However, this intuition fades as we move further from these extreme categories to the more neutral words of the dataset. This is exactly where we can see _tension in meaning_. Words closer to the middle of the scale begin to reveal ambiguity. As much as agreement in happiness scores suggests shared understanding in meaning, neutrality but also disagreement reveals limits of consensus. The category of highly contested words disrupts the notion that meaning is stable, showing that words can be interpreted by some as positive and by others as negative. Words such as fucking or pussy may be used differently across generations, genders, or subcultures. In some communities they function as insults and in others they can be even used as terms of empowerment.
 
-Our deliberate choice of polarizing words as an additional concept we can use to analyse this dataset is based on an interest in comparing them to highly contested words and interpret their differences. In the polarizing word category the average happiness score is near neutral, but disagreement is high. In contrast with the highly contested ones, which may still lean slightly positive or negative overall, the polarizing category shows how strong disagreement runs the risk of being obscured in the process of "noise reduction" (ignoring the neutral words in the process of cleaning up the data). Why is that important? Because conscious emotional register does not always reflect the significance of meaning. A word that does not consciously "feel" partiularly happy or sad can be one that people have invested their entire being in (an interesting example is "home", a word perhaps neutral to a privileged person but infinitely emotionally charged for a houseless individual or displaced populations).
+Our deliberate choice of polarizing words as an additional concept we can use to analyse this dataset is based on an interest in comparing them to highly contested words and interpret their differences. In the polarizing word category the average happiness score is near neutral, but disagreement is high. In contrast with the highly contested ones, which may still lean slightly positive or negative overall, the polarizing category shows how strong disagreement can completely hide behind a neutral score. Why is that important? Because it is hard to discern the conflict that occurs when trying to define meaning. The difference of opinion still exists, but it is difficult to take into account.
+
+Overall, what this dataset illustrates is that conscious emotional register does not always reflect the significance of meaning. A word that does not consciously "feel" particularly happy or sad can be one that people have invested their entire being in (an interesting example is "home", a word perhaps neutral to a privileged person but infinitely emotionally charged for a houseless individual or displaced populations).
+
 
 ## 6. Critical reflection 
 
 ### 6.1 Reconstruct the pipeline (data provenance)
 
-Dodds et al:
 
-The labMT dataset was created through a multi-step process explained below:
-First the researchers collected a list of common words from four text sources: Twitter, Google Books, the New York Times, and music lyrics, the last two within a time-span of more than 3 decades. Each list included 5,000 most common words. 
-For each corpus, the researchers counted how many times every word appears in the text. This produces a raw frequency count. 
-The words were then ordered from most frequent to least frequent. This gives the frequency rank of each word in each corpus. In that way, the frequency ranks of the words are comparable. For example, world love ranks 25th on the Twitter rank category and 328th on the Google rank. The word but ranks on the 27th position for both Google and NYT.
-The researchers asked workers on Amazon Mechanical Turk to rate each word on a happiness scale from 1 to 9, with 1 being very unhappy and 9 very happy. Each word was rated by 50 different participants.
-The aggregated ratings of each word were used to compute the average happiness score and the deviation of happiness.
-The dataset was then organised so that each word is associated with its happiness rank, its individual happiness score, its happiness standard deviation and the frequency rank for that word in the 4 text corpora. The happiness rank column is the ordering of words after the average happiness score is calculated.
-As a validation step, the resulting happiness scores were compared with those from the earlier ANEW lexicon and showed a very high correlation, suggesting that the ratings were reliable.
+According to (Dodds et al, 2011), the labMT dataset was created through a multi-step process explained below:
+1. First the researchers collected a list of common words from four text sources: Twitter, Google Books, the New York Times, and music lyrics, the last two within a time-span of more than 3 decades. Each list included 5,000 most common words. 
+2. For each corpus, the researchers counted how many times every word appears in the text. This produces a raw frequency count. 
+3. The words were then ordered from most frequent to least frequent. This gives the frequency rank of each word in each corpus. In that way, the frequency ranks of the words are comparable. For example, world love ranks 25th on the Twitter rank category and 328th on the Google rank. The word but ranks on the 27th position for both Google and NYT.
+4. The researchers asked workers on Amazon Mechanical Turk to rate each word on a happiness scale from 1 to 9, with 1 being very unhappy and 9 very happy. Each word was rated by 50 different participants.
+5. The aggregated ratings of each word were used to compute the average happiness score and the deviation of happiness.
+6. The dataset was then organised so that each word is associated with its happiness rank, its individual happiness score, its happiness standard deviation and the frequency rank for that word in the 4 text corpora. The happiness rank column is the ordering of words after the average happiness score is calculated.
+7. As a validation step, the resulting happiness scores were compared with those from the earlier ANEW lexicon and showed a very high correlation, suggesting that the ratings were reliable.
 						
 ### 6.2 Consequences and limitations (your critical argument) 
 
