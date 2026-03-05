@@ -118,16 +118,16 @@ Overall, what this dataset illustrates is that conscious emotional register does
 
 4.1 Reconstruct the pipeline (data provenance)
 
-Dodds et al:
 
-The labMT dataset was created through a multi-step process explained below:
-First the researchers collected a list of common words from four text sources: Twitter, Google Books, the New York Times, and music lyrics, the last two within a time-span of more than 3 decades. Each list included 5,000 most common words. 
-For each corpus, the researchers counted how many times every word appears in the text. This produces a raw frequency count. 
-The words were then ordered from most frequent to least frequent. This gives the frequency rank of each word in each corpus. In that way, the frequency ranks of the words are comparable. For example, world love ranks 25th on the Twitter rank category and 328th on the Google rank. The word but ranks on the 27th position for both Google and NYT.
-The researchers asked workers on Amazon Mechanical Turk to rate each word on a happiness scale from 1 to 9, with 1 being very unhappy and 9 very happy. Each word was rated by 50 different participants.
-The aggregated ratings of each word were used to compute the average happiness score and the deviation of happiness.
-The dataset was then organised so that each word is associated with its happiness rank, its individual happiness score, its happiness standard deviation and the frequency rank for that word in the 4 text corpora. The happiness rank column is the ordering of words after the average happiness score is calculated.
-As a validation step, the resulting happiness scores were compared with those from the earlier ANEW lexicon and showed a very high correlation, suggesting that the ratings were reliable.
+
+According to Dodds et al. (2011), the labMT dataset was created through a multi-step process explained below:
+1.First the researchers collected a list of common words from four text sources: Twitter, Google Books, the New York Times, and music lyrics, the last two within a time-span of more than 3 decades. Each list included 5,000 most common words. 
+2.For each corpus, the researchers counted how many times every word appears in the text. This produces a raw frequency count. 
+3.The words were then ordered from most frequent to least frequent. This gives the frequency rank of each word in each corpus. In that way, the frequency ranks of the words are comparable. For example, world love ranks 25th on the Twitter rank category and 328th on the Google rank. The word but ranks on the 27th position for both Google and NYT.
+4.The researchers asked workers on Amazon Mechanical Turk to rate each word on a happiness scale from 1 to 9, with 1 being very unhappy and 9 very happy. Each word was rated by 50 different participants.
+5.The aggregated ratings of each word were used to compute the average happiness score and the deviation of happiness.
+6.The dataset was then organised so that each word is associated with its happiness rank, its individual happiness score, its happiness standard deviation and the frequency rank for that word in the 4 text corpora. The happiness rank column is the ordering of words after the average happiness score is calculated.
+7.As a validation step, the resulting happiness scores were compared with those from the earlier ANEW lexicon and showed a very high correlation, suggesting that the ratings were reliable.
 						
 4.2 Consequences and limitations (your critical argument) 
 
