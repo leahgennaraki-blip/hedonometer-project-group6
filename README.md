@@ -287,9 +287,9 @@ It cannot accurately represent specific or minority groups because the method re
 
 #### What improvements would you make if you rebuilt it? 
 We would:
-aim for giving each word three potential happiness ranks instead of one. In that way text happiness would appear as one or more ranges in the scale rather than an approximate number. Perhaps that would need further tools to sanity check and measure probability for each range, but the end result would be much more accurate.
-use words from more culturally diverse corpora. For example, even though New York Times has a place in the dataset, Al Jazeera doesn’t, therefore getting very culturally specific word uses. 
-construct a multilingual model. The dataset would need much more cleaning up and mediating tools to be usable, but it wouldn’t perpetuate the Anglophone dominance of popular culture. 
+- aim for giving each word three potential happiness ranks instead of one. In that way text happiness would appear as one or more ranges in the scale rather than an approximate number. Perhaps that would need further tools to sanity check and measure probability for each range, but the end result would be much more accurate.
+- use words from more culturally diverse corpora. For example, even though New York Times has a place in the dataset, Al Jazeera doesn’t, therefore getting very culturally specific word uses. 
+- construct a multilingual model. The dataset would need much more cleaning up and mediating tools to be usable, but it wouldn’t perpetuate the Anglophone dominance of popular culture. 
 
 ## 7. How to run the code 
 
