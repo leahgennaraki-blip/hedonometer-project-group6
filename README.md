@@ -75,7 +75,11 @@ Due to the tight deadline and the lack of strong programming skills among our gr
 
 AI is a great help to us quickly learn code and advance tasks. We use it to guide us in writing code and help us analyze errors. At the same time, we don't forget not to lose control of the code. We require the AI ​​to interpret everything it generates to ensure that the entire project is always under our control, and to let the AI ​​only serve as an auxiliary tool to provide technical support.
 
+### 3.2 Method for quantitative exploration
 
+### 3.3 Method for qualitative exploration
+
+We first imported the cleaned dataset using the function load_labmt from the data cleaning file load_labmt.py. We also imported the analyse_disagreement function and the save_csv function from the quantitative_exploration.py file, as well as pandas. Our goal was to have the happiness ranks and standard deviations for all words so that we could create our qualitative exploration "Word exhibit". We created separate tables showcasing the 5 most positive, negative, highly contested and polarizing words (the last category was our addition to the requirements of the assignment), as well as their happiness rank and/or (where pertinent) standard deviation. After printing all tables so that we get an idea of what kinds of words make up each category, we created a new table that included all the aforementioned categories in decending order. Lastly, using the save_csv function we saved a comma-delimited file in the tables folder that included our word exhibit.
 
 ## 4. Result section 
 
@@ -95,8 +99,6 @@ We can observe that the very positive words in our exhibit, such as laughter, ha
 Agreement and disagreement become a useful concept to read this dataset, because they show that the meanings of some words are relatively stable and widely shared (in the highly positive and highly negative categories), while others are unstable and dependent on context. If we were to look only at the very positive or negative categories, it would feel intuitive that these words receive such scores. However, this intuition fades as we move further from these extreme categories to the more neutral words of the dataset. This is exactly where we can see _tension in meaning_. Words closer to the middle of the scale begin to reveal ambiguity. As much as agreement in happiness scores suggests shared understanding in meaning, neutrality but also disagreement reveals limits of consensus. The category of highly contested words disrupts the notion that meaning is stable, showing that words can be interpreted by some as positive and by others as negative. Words such as fucking or pussy may be used differently across generations, genders, or subcultures. In some communities they function as insults and in others they can be even used as terms of empowerment.
 
 Our deliberate choice of polarizing words as an additional concept we can use to analyse this dataset is based on an interest in comparing them to highly contested words and interpret their differences. In the polarizing word category the average happiness score is near neutral, but disagreement is high. In contrast with the highly contested ones, which may still lean slightly positive or negative overall, the polarizing category shows how strong disagreement runs the risk of being obscured in the process of "noise reduction" (ignoring the neutral words in the process of cleaning up the data). Why is that important? Because conscious emotional register does not always reflect the significance of meaning. A word that does not consciously "feel" partiularly happy or sad can be one that people have invested their entire being in (an interesting example is "home", a word perhaps neutral to a privileged person but infinitely emotionally charged for a houseless individual or displaced populations).
-
-
 
 ## 6. Critical reflection 
 
@@ -186,5 +188,7 @@ Before starting our group task, we divided the work according to the requirement
 Kevin's responsibilities included managing the Git repository and coordinating the synchronization process. Git repositories are efficient tools for sharing code and collaborating, but most of our group members had never used Git before. Therefore, Kevin first familiarized himself with Git repositories, helped create the job's reprocitories, and guided the others in linking them. We also discovered that if multiple people were editing code simultaneously, Git might encounter errors when pushing updates, so coordinating the editing order and timing was crucial.
 
 Tianye's responsibilities included initial cleaning and categorizing of raw data, facilitating the interpretation of the "Distribution of happiness_average" histogram, the "happiness_average vs happiness_standard_deviation" scatter graph, the "corpus_rank_coverage_bar" chart, and the "twitter_rank_vs_nyt_rank_scatter" chart. As a first-time-user of VS Code and GitHub, Tianye also quickly familiarized himself with the basic operating system of such tools and basic coding logic, which helped him tremendously when he directly addressed the very first technical task of cleaning and categorizing the raw data and putting those data into visually pleasant columns. Besides that, Tianye worked closely with other teammates, especially Arav in the quantitative analysis section, to ensure a coherent workflow for the rest of the tasks and the collective.
+
+Leah's responsibilities included creating the qualitative exploration word exhibit. Collaborated with Sisi and Yuki on the critical reflection (mainly 4.2 and the last part of 4.3) and oversaw the editing of the README.md (especially pertaining to the critical analysis and conclusions).
 
 
