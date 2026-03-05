@@ -107,6 +107,6 @@ Before starting our group task, we divided the work according to the requirement
 
 Kevin's responsibilities included managing the Git repository and coordinating the synchronization process. Git repositories are efficient tools for sharing code and collaborating, but most of our group members had never used Git before. Therefore, Kevin first familiarized himself with Git repositories, helped create the job's reprocitories, and guided the others in linking them. We also discovered that if multiple people were editing code simultaneously, Git might encounter errors when pushing updates, so coordinating the editing order and timing was crucial.
 
-
+Tianye's responsibilities included initial cleaning and categorizing of raw data, facilitating the interpretation of the "Distribution of happiness_average" histogram, the "happiness_average vs happiness_standard_deviation" scatter graph, the "corpus_rank_coverage_bar" chart, and the "twitter_rank_vs_nyt_rank_scatter" chart. As a first-time-user of VS Code and GitHub, Tianye also quickly familiarized himself with the basic operating system of such tools and basic coding logic, which helped him tremendously when he directly addressed the very first technical task of cleaning and categorizing the raw data and putting those data into visually pleasant columns. Besides that, Tianye worked closely with other teammates, especially Arav in the quantitative analysis section, to ensure a coherent workflow for the rest of the tasks and the collective.
 
 
