@@ -98,11 +98,89 @@ Our deliberate choice of polarizing words as an additional concept we can use to
 
 
 
-## 6. critical reflection 
+## 6. Critical reflection 
+
+4.1 Reconstruct the pipeline (data provenance)
+
+Dodds et al:
+
+The labMT dataset was created through a multi-step process explained below:
+First the researchers collected a list of common words from four text sources: Twitter, Google Books, the New York Times, and music lyrics, the last two within a time-span of more than 3 decades. Each list included 5,000 most common words. 
+For each corpus, the researchers counted how many times every word appears in the text. This produces a raw frequency count. 
+The words were then ordered from most frequent to least frequent. This gives the frequency rank of each word in each corpus. In that way, the frequency ranks of the words are comparable. For example, world love ranks 25th on the Twitter rank category and 328th on the Google rank. The word but ranks on the 27th position for both Google and NYT.
+The researchers asked workers on Amazon Mechanical Turk to rate each word on a happiness scale from 1 to 9, with 1 being very unhappy and 9 very happy. Each word was rated by 50 different participants.
+The aggregated ratings of each word were used to compute the average happiness score and the deviation of happiness.
+The dataset was then organised so that each word is associated with its happiness rank, its individual happiness score, its happiness standard deviation and the frequency rank for that word in the 4 text corpora. The happiness rank column is the ordering of words after the average happiness score is calculated.
+As a validation step, the resulting happiness scores were compared with those from the earlier ANEW lexicon and showed a very high correlation, suggesting that the ratings were reliable.
+						
+4.2 Consequences and limitations (your critical argument) 
+
+*Choice 1*: Measuring happiness on a 1–9 numerical scale
+What they did:
+The researchers asked raters to assign each word a numerical happiness score from 1 to 9
+Consequence:
+Each word is reduced to a single fixed number. Context cannot be included.
+Example:
+The word “million” has an average happiness score of 7.38. However, million is just a number. Its emotional meaning depends entirely on context, for example, “a million dollars” (positive meaning). The numerical scale assigns it a stable value even though its meaning is completely situational.
+
+*Choice 2*: Using Mechanical Turk raters
+What they did:
+The happiness scores were determined by crowdworkers on Amazon Mechanical Turk.
+Consequence:
+The raters’ values reflect their cultural background, beliefs, and assumptions and even mood. Opinions may change over time or differ across communities, making the scores historically and socially situated.
+Example:
+The word “wealth” has a happiness average of 7.38. This suggests that raters generally associate wealth with something positive. However, in different ideological or cultural contexts, wealth could also be associated with inequality or greed. Thus, the score reflects particular value systems.
+
+
+*Choice 3*: Platform influence in word selection
+What they did:
+The dataset includes the frequency of words in specific corpora (Twitter, Google Books, NYT, Lyrics).
+Consequence:
+The dataset reflects the media environment from which the words were taken. It does not represent all communities equally.
+Example:
+The word “valentine’s” appears strongly in lyrics and reflects Western romantic culture.
+
+*Choice 4*: Loss of polysemy
+What they did: 
+Every word gets one average happiness rank, with only sanity check being the standard deviation. Considering that meaning is volatile, everchanging and multiplicitous, denying that words can have simultaneous divergent meanings is crude reductivism. 
+Consequence: 
+The model assumes a word always has one and the same emotional meaning. It ignores that some words can be read in more than one way and that they can signify multiple things at once. 
+Example: 
+The word “mad” inherently has different -if not opposite- meanings such as angry and enthusiastic, the dataset assigns only one meaning to give one average score and ignores the variation that is embedded in language.
+
+*Choice 5*: Topic effect
+What they did: 
+Text happiness can only be calculated from the frequency of positive and negative words. 
+Consequence:
+The model collapses the category of topic and hegemonic ideology in texts. More negative words may reflect what people are talking about, not how they feel.
+Example: 
+Words like “dead” and “damage” increase during a natural disaster. This lowers the happiness score, however, these words might originate from news reporting objective facts rather than describing emotions. Moreover, such words can even be used to infer positive emotion in cases of hate speech, specific political and ideological affiliations, or instances where something that is widely and unilaterally perceived as bad has been eliminated (e.g. Osama bin Laden’s death).
+
+*Choice 6*: Neglecting grammar as communicative of emotion 
+What they did:
+The hedonometer treats all the collected words as expressing emotions because the dataset does not include their grammatical function, such as noun, verb, and adjective. 
+Consequence: 
+The model does not recognize how a word’s meaning changes when its part of speech changes. Words of various grammatical categories may be used in a sentence to describe an action rather than to express an emotion, but they are still identified by the model as words denoting emotions. Furthermore, colloquialisms and slang, categories that escape formalization, have been known to subvert grammatical structures and rules to express discontent with formalisms and the status quo (of language, politics, society etc). This thereby reduces the accuracy of the happiness level measurement.
+Example: 
+The word “mean” can be used as a negative adjective or as a neutral verb. The model assigns one fixed happiness score to “mean” and does not distinguish between these uses. Therefore, neutral phrases like “I mean…” may be interpreted as carrying negative emotion. “Word!” (what the hedonometer reads here is  “word”) has a highly positive and emphatic meaning when used by specific communities and demographics.
+
+4.3 If you were to use this dataset as an instrument today... 
+
+What would you trust this dataset to measure well?
+The dataset is particularly reliable for detecting large-scale mood shifts over time. Random noise and individual-level variation tend to average out when applied to millions of words. This makes the instrument suited for identifying long-term trends and emotional reactions to major public events at the macro level. It can also indicate general patterns in how people typically use words to express positive or negative emotion across common contexts. 
+In addition, by comparing word frequency patterns and happiness value, the dataset can be used to analyze differences in linguistic style across platforms, which reveals how various media environments encode and circulate emotional language differently. Finally, it can be used to identify large-scale moods per corpus. 
+
+What would you refuse to claim based on it?
+It cannot accurately represent specific or minority groups because the method relies on large-scale aggregation. The overall score reflects dominant textual patterns, which may overshadow smaller communities. As a result, the dataset is not suitable for making claims about emotional experiences of marginalized people. It is primarily indicative of hegemonic emotion and its reflection on the vast majority of people.
+What improvements would you make if you rebuilt it? 
+We would:
+aim for giving each word three potential happiness ranks instead of one. In that way text happiness would appear as one or more ranges in the scale rather than an approximate number. Perhaps that would need further tools to sanity check and measure probability for each range, but the end result would be much more accurate.
+use words from more culturally diverse corpora. For example, even though New York Times has a place in the dataset, Al Jazeera doesn’t, therefore getting very culturally specific word uses. 
+construct a multilingual model. The dataset would need much more cleaning up and mediating tools to be usable, but it wouldn’t perpetuate the Anglophone dominance of popular culture. 
 
 ## 7. How to run the code 
 
-## 8. Crdits and role
+## 8. Credits and role
 Before starting our group task, we divided the work according to the requirements.
 
 Kevin's responsibilities included managing the Git repository and coordinating the synchronization process. Git repositories are efficient tools for sharing code and collaborating, but most of our group members had never used Git before. Therefore, Kevin first familiarized himself with Git repositories, helped create the job's reprocitories, and guided the others in linking them. We also discovered that if multiple people were editing code simultaneously, Git might encounter errors when pushing updates, so coordinating the editing order and timing was crucial.
