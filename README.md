@@ -170,9 +170,13 @@ All tables referenced in this section are generated automatically by the analysi
  
 Due to the tight deadline and the lack of strong programming skills among our group members, we utilized intelligent tools, including UVA AI, to assist in writing and modifying the code. First, we reviewed the course content and project guidelines to understand the coding techniques required for this exercise. When writing code to clean the data, we followed the task's logical requirements, with AI guiding our code writing. During this process, we encountered code errors, possibly caused by an error in the AI's file path specification. We needed to modify the AI's suggestions based on our local operating environment and file paths, ultimately completing the cleaning and organization of the raw data. Generating relevant statistical charts for qualitative and quantitative analysis proved challenging. Again, we relied on intelligent tools to ensure the generated charts accurately reflected the required data while being neat and aesthetically pleasing. To ensure every group member fully understood the code, we had the AI ​​provide a detailed explanation of each line, including its function and the programming techniques used. We then used Python's comment function (#) to annotate these points of difficulty below the corresponding lines of code.
 
-AI is a great help to us quickly learn code and advance tasks. We use it to guide us in writing code and help us analyze errors. At the same time, we don't forget not to lose control of the code. We require the AI ​​to interpret everything it generates to ensure that the entire project is always under our control, and to let the AI ​​only serve as an auxiliary tool to provide technical support.
+AI is a great help to us quickly learn code and advance tasks. We use it to guide us in writing code and help us analyze errors. At the same time, we don't forget not to lose control of the code. We require the AI ​​to interpret everything it generates to ensure that the entire project is always under our control, and to let the AI ​​only serve as an auxiliary tool to provide technical support. AI was of particular use in the creation of plots for the qualitative analysis, as well as for piecing together interpretations of the code written by our team members. 
 
 ### 3.2 Method for quantitative exploration
+
+We examined the distribution of happiness_average scores by computing summary statistics and visualizing the distribution with a histogram.
+We quantified disagreement using happiness_standard_deviation, plotted it against happiness_average, and identified the 15 words with the highest standard deviation as the most “contested”.
+Using corpus-specific rank fields (Twitter, Google Books, New York Times, song lyrics), we calculated coverage (number of words with non-missing ranks), pairwise overlaps between corpora, and highlighted words highly ranked in Twitter but absent from the NYT top 5000. All tables were exported as cvs and figures saved as .png.
 
 ### 3.3 Method for qualitative exploration
 
@@ -314,4 +318,4 @@ Yuki/Yuxuan's responsibilites included creating the data dictionary and sanity c
 
 Chrysoula was responsible for parts of the qualitative exploration and of the critical reflection of the dataset. Her work included generating a qualitative exhibit of words and conducting an interpretive analysis of the dataset, with a particular focus on disagreement, neutrality, deviation, and the polarising effect. She also wrote the reconstruction of the data pipeline, paying close attention to the Dodds reading, and contributed to the discussion of dataset design choices by writing Choices 1, 2, and 3.
 
-
+Arav was responsible for great deal of the code for the quantitative exploration of the dataset. He worked closely with Tianye.
