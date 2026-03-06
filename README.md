@@ -188,12 +188,13 @@ Lastly, we created two  .png files, one with the separate categories we looked i
 ### 4.1 Quantitative exploration
 
 ![distribution of happiness average in labmt 1.0](figures/happiness_average_hist.png)
-
-![Happiness score vs disagreement: Happiness average vs standard deviation](figures/happiness_vs_std_scatter.png)
+Happiness scores in the labMT lexicon follow an approximately normal distribution centered slightly above neutral (~5.4), indicating a well-known positivity bias in human language where most words are neutral to mildly positive and strongly valenced words are comparatively rare.
 
 <img width="1280" height="960" alt="happiness_vs_std_scatter" src="https://github.com/user-attachments/assets/dd975dd3-6b7d-42fe-9a15-4bcec82f73ee" />
+Most words cluster around a happiness score of about 5–6, where the standard deviation is relatively low, indicating that annotators generally agree on the emotional valence of neutral or slightly positive words. As words become more extremely negative or positive, the standard deviation tends to increase slightly, suggesting greater disagreement among annotators about the emotional meaning of these words. Overall, the plot indicates that while most words have moderate happiness scores with relatively consistent ratings, words with stronger emotional connotations tend to produce more variability in human judgments.
 
 ![How many lamt 1.0 words appear in each corpus top-5000](figures/corpus_rank_coverage_bar.png)
+Every bar reaches 5000, meaning that for each corpus there are 5000 labMT words with a recorded rank. This indicates that the labMT dataset contains sentiment scores for all the top 5000 most frequent words in each of these corpora. In other words, the sentiment lexicon has full coverage of the top-frequency vocabulary across these four text sources, allowing consistent sentiment analysis across social media (Twitter), books (Google), news (NYT), and music lyrics.
 
 ### 4.2 Qualitative exploration
 
