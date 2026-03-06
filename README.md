@@ -306,7 +306,7 @@ Kevin's responsibilities included managing the Git repository and coordinating t
 
 Tianye's responsibilities included initial cleaning and categorizing of raw data, facilitating the interpretation of the "Distribution of happiness_average" histogram, the "happiness_average vs happiness_standard_deviation" scatter graph, the "corpus_rank_coverage_bar" chart, and the "twitter_rank_vs_nyt_rank_scatter" chart. As a first-time-user of VS Code and GitHub, Tianye also quickly familiarized himself with the basic operating system of such tools and basic coding logic, which helped him tremendously when he directly addressed the very first technical task of cleaning and categorizing the raw data and putting those data into visually pleasant columns. Besides that, Tianye worked closely with other teammates, especially Arav in the quantitative analysis section, to ensure a coherent workflow for the rest of the tasks and the collective.
 
-Leah's responsibilities included creating the qualitative exploration word exhibit. Collaborated with Sisi and Yuki on the critical reflection (mainly 4.2 and the last part of 4.3) and oversaw the editing of the README.md (especially pertaining to the critical analysis and conclusions).
+Leah's responsibilities included creating the qualitative exploration word exhibit. Collaborated with Chrysoula and Yuki on the critical reflection (mainly 4.2 and the last part of 4.3) and oversaw the editing of the README.md (especially pertaining to the critical analysis and conclusions).
 
 Yuki/Yuxuan's responsibilites included creating the data dictionary and sanity cheaks. Collaborated with Sisi and Leah on the critical reflection (mainly 4.2 and the first and second of 4.3). 
 
