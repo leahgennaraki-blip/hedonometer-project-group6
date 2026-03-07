@@ -269,16 +269,6 @@ The file shows 4 tables of the 5 most positive, 5 most negative, 5 of the most h
 
 The file includes the categories and words mentioned in the Top_5_separate.png in one table without their ranks nor their standard deviation.
 
-### 4.2 Qualitative exploration
-
-![Top 5 words and their ranks/standard deviation in categories: very positive, very negative, highly contested, and polarizing](figures/Top_5_separate.png)
-
-The file shows 4 tables of the 5 most positive, 5 most negative, 5 of the most highly contested and 5 of the most polarizing words and their happiness ranks and/or standard deviation as needed.
-
-![The "Word exhibit" table](figures/word_exhibit.png)
-
-The file includes the categories and words mentioned in the Top_5_separate.png in one table without their ranks nor their standard deviation.
-
 ## 5. Qualitative "exhibit" of words
 
 TL;DR
