@@ -242,7 +242,7 @@ plt.title("Distribution of happiness_average (labMT 1.0)")
 plt.xlabel("happiness_average (1–9)")
 plt.ylabel("number of words")
 plt.tight_layout()
-save_figure("happiness_average_hist.png")
+save_figure("hist_happiness_average.png")
 plt.close()
 
 
@@ -266,7 +266,7 @@ plt.title("Disagreement vs score: happiness_average vs happiness_standard_deviat
 plt.xlabel("happiness_average")
 plt.ylabel("happiness_standard_deviation")
 plt.tight_layout()
-save_figure("happiness_vs_std_scatter.png")
+save_figure("scatter_happiness_vs_std.png")
 plt.close()
 
 # Which words do people disagree about most?
@@ -304,7 +304,7 @@ plt.xlabel("corpus rank column")
 plt.ylabel("number of words with a rank")
 plt.xticks(rotation=20, ha="right")
 plt.tight_layout()
-save_figure("corpus_rank_coverage_bar.png")
+save_figure("bar_corpus_rank_coverage.png")
 plt.close()
 
 # (B) Overlap patterns: which corpora contain which words?
@@ -341,68 +341,72 @@ for i in range(len(labels)):
 pairwise_overlap = pd.DataFrame(pairs).sort_values("pair")
 save_csv(pairwise_overlap, "pairwise_overlap_counts.csv", index=False)
 
-# Bar chart (word presence by number of corpora)
+# # Bar chart (word presence by number of corpora)
 
-pattern_counts['n_corpora'] = pattern_counts['corpora_present'].str.count('1')
-by_categories = pattern_counts.groupby('n_corpora')['n_words'].sum()
+# pattern_counts['n_corpora'] = pattern_counts['corpora_present'].str.count('1')
+# by_categories = pattern_counts.groupby('n_corpora')['n_words'].sum()
 
-plt.figure (figsize=(10, 6))
-y_values = by_categories.values.tolist()
-x_labels = ['0 corpora', '1 corpus', '2 corpora', '3 corpora', '4 corpora']
-colors = ['#999999', '#ff9999', '#66b3ff', '#99ff99', '#ffcc99']
+# plt.figure (figsize=(10, 6))
+# y_values = by_categories.values.tolist()
+# x_labels = ['0 corpora', '1 corpus', '2 corpora', '3 corpora', '4 corpora']
+# colors = ['#999999', '#ff9999', '#66b3ff', '#99ff99', '#ffcc99']
 
-bars = plt.bar(x_labels, y_values, color=colors)
+# bars = plt.bar(x_labels, y_values, color=colors)
 
-for bar in bars:
-    height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2., height,
-             f'{int(height):,}', ha='center', va='bottom', fontsize=11)
+# for bar in bars:
+#     height = bar.get_height()
+#     plt.text(bar.get_x() + bar.get_width()/2., height,
+#              f'{int(height):,}', ha='center', va='bottom', fontsize=11)
     
-plt.title('Words by number of corpora they appear in', fontsize=14)
-plt.xlabel('Number of corpora', fontsize=12)
-plt.ylabel('Number of words', fontsize=12)
+# plt.title('Words by number of corpora they appear in', fontsize=14)
+# plt.xlabel('Number of corpora', fontsize=12)
+# plt.ylabel('Number of words', fontsize=12)
 
-# for i, v in enumerate(total_per_corpus):
-#     plt.text(i, v + 50, str(v), ha='center', fontsize=10)
+# # for i, v in enumerate(total_per_corpus):
+# #     plt.text(i, v + 50, str(v), ha='center', fontsize=10)
 
-plt.tight_layout()
-save_figure("word_presence_by_corpora.png")
-plt.close()
+# plt.tight_layout()
+# save_figure("word_presence_by_corpora.png")
+# plt.close()
 
 
-# Word overlap Heatmap
+# # Word overlap Heatmap
 
-corpora = ['twitter', 'google', 'nyt', 'lyrics']
-n = len(corpora)
+# corpora = ['twitter', 'google', 'nyt', 'lyrics']
+# n = len(corpora)
 
-overlap_matrix = pd.DataFrame(0, index=corpora, columns=corpora)
+# overlap_matrix = pd.DataFrame(0, index=corpora, columns=corpora)
 
-for _, row in pairwise_overlap.iterrows():
-    pair = row['pair']
-    count = row['n_words_in_both']
+# for _, row in pairwise_overlap.iterrows():
+#     pair = row['pair']
+#     count = row['n_words_in_both']
 
-    # Split the pair (e.g., "google+lyrics" -> ["google", "lyrics"])
-    c1, c2 = pair.split('+')
-    overlap_matrix.loc[c1, c2] = count
-    overlap_matrix.loc[c2, c1] = count  # Make symmetric
+#     # Split the pair (e.g., "google+lyrics" -> ["google", "lyrics"])
+#     c1, c2 = pair.split('+')
+#     overlap_matrix.loc[c1, c2] = count
+#     overlap_matrix.loc[c2, c1] = count  # Make symmetric
 
-# Add diagonal (words in each corpus)
-for corpus in corpora:
-    overlap_matrix.loc[corpus, corpus] = flags[corpus].sum()
+# # Add diagonal (words in each corpus)
+# for corpus in corpora:
+#     overlap_matrix.loc[corpus, corpus] = flags[corpus].sum()
 
-# Create heatmap
-plt.figure(figsize=(10, 8))
-sns.heatmap(overlap_matrix, 
-            annot=True,  # Show values
-            fmt=',d',    # Format as integers with commas
-            cmap='YlOrRd',  # Color scheme (Yellow-Orange-Red)
-            square=True,  # Make cells square
-            cbar_kws={'label': 'Number of words'})
+# # Creak mask for upper triangle
+# mask = np.triu(np.ones_like(overlap_matrix, dtype=bool), k=1)
 
-plt.title('Word Overlaps Between Corpora', fontsize=14, fontweight='bold')
-plt.tight_layout()
-save_figure('word_overlap_heatmap.png')
-plt.close()
+# # Create heatmap
+# plt.figure(figsize=(10, 8))
+# sns.heatmap(overlap_matrix, 
+#             mask=mask,
+#             annot=True,  # Show values
+#             fmt=',d',    # Format as integers with commas
+#             cmap='YlOrRd',  # Color scheme (Yellow-Orange-Red)
+#             square=True,  # Make cells square
+#             cbar_kws={'label': 'Number of words'})
+
+# plt.title('Word Overlaps Between Corpora', fontsize=14, fontweight='bold')
+# plt.tight_layout()
+# save_figure('word_overlap_heatmap.png')
+# plt.close()
 
 # (C) One concrete example: frequent in one corpus, missing in another.
 # Here we look for words that are relatively frequent on Twitter but do NOT appear in NYT's top-5000.
@@ -428,7 +432,7 @@ plt.title("Twitter rank vs NYT rank (words present in both)")
 plt.xlabel("twitter_rank (1 = most frequent)")
 plt.ylabel("nyt_rank (1 = most frequent)")
 plt.tight_layout()
-save_figure("twitter_rank_vs_nyt_rank_scatter.png")
+save_figure("scatter_twitter_rank_vs_nyt_rank.png")
 plt.close()
 
 
