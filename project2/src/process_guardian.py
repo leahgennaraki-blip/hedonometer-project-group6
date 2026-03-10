@@ -1,35 +1,33 @@
 import json
 from pathlib import Path
 
+import pandas as pd
 
-def main():
-    # 1. 指向 raw JSON 文件
+
+def load_raw_json() -> dict:
+    """Load the raw Guardian JSON file from data/raw/."""
     raw_path = Path("data/raw/guardian_sample_page1.json")
 
     if not raw_path.exists():
         raise FileNotFoundError(
-            f"找不到 {raw_path}。请先运行 python src/fetch_guardian.py 获取数据。"
+            f"{raw_path} not found. Please run "
+            f"'python src/fetch_guardian.py' first to download data."
         )
 
-    # 2. 读取 JSON
     with raw_path.open("r", encoding="utf-8") as f:
         data = json.load(f)
 
-    # 3. 取出 results 列表
-    try:
-        results = data["response"]["results"]
-    except KeyError:
-        raise KeyError("JSON 中没有找到 ['response']['results'] 字段。")
+    return data
 
-    print(f"The total number of articles in this page：{len(results)}")
 
+def inspect_first_article(results: list) -> None:
+    """Print some information about the first article."""
     if not results:
-        print("results 为空，没有文章。")
+        print("The results list is empty; no articles found.")
         return
 
-    # 4. 看看第一篇文章的关键字段
     first = results[0]
-    print("\n=== Some paragraph on the first passage ===")
+    print("\n=== Some information on the first article ===")
     print("id:", first.get("id"))
     print("sectionName:", first.get("sectionName"))
     print("webPublicationDate:", first.get("webPublicationDate"))
@@ -40,8 +38,68 @@ def main():
     body_text = fields.get("bodyText", "")
 
     print("\nheadline:", headline[:100])
-    print("\nbodyText the first 200 words：")
+    print("\nbodyText (first 200 characters):")
     print(body_text[:200])
+
+
+def results_to_dataframe(results: list) -> pd.DataFrame:
+    """
+    Convert the Guardian 'results' list into a tidy pandas DataFrame.
+    We keep only the columns that are useful for later analysis.
+    """
+    records = []
+
+    for item in results:
+        fields = item.get("fields", {}) or {}
+
+        record = {
+            "id": item.get("id"),
+            "type": item.get("type"),
+            "section_id": item.get("sectionId"),
+            "section_name": item.get("sectionName"),
+            "web_publication_date": item.get("webPublicationDate"),
+            "web_title": item.get("webTitle"),
+            "headline": fields.get("headline"),
+            "trail_text": fields.get("trailText"),
+            "body_text": fields.get("bodyText"),
+            "is_hosted": item.get("isHosted"),
+            "pillar_id": item.get("pillarId"),
+            "pillar_name": item.get("pillarName"),
+        }
+
+        records.append(record)
+
+    df = pd.DataFrame.from_records(records)
+    return df
+
+
+def main():
+    # 1. Load raw JSON and extract results list
+    data = load_raw_json()
+
+    try:
+        results = data["response"]["results"]
+    except KeyError:
+        raise KeyError("JSON does not contain ['response']['results'].")
+
+    print(f"The total number of articles in this page: {len(results)}")
+
+    # 2. Inspect the first article (for understanding/debugging)
+    inspect_first_article(results)
+
+    # 3. Convert to DataFrame
+    df = results_to_dataframe(results)
+    print("\nDataFrame shape:", df.shape)
+    print("DataFrame columns:", list(df.columns))
+
+    # 4. Save to data/processed/
+    processed_dir = Path("data/processed")
+    processed_dir.mkdir(parents=True, exist_ok=True)
+
+    output_path = processed_dir / "guardian_articles_page1.csv"
+    df.to_csv(output_path, index=False)
+
+    print(f"\nSaved processed CSV to: {output_path.resolve()}")
 
 
 if __name__ == "__main__":

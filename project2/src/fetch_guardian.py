@@ -26,6 +26,7 @@ def get_api_key() -> str:
 
 def fetch_guardian_page(
     page: int = 1,
+    page_size: int = 100,
     query: str = "politics",
     from_date: str = "2023-01-01",
     to_date: str = "2023-12-31",
@@ -42,7 +43,7 @@ def fetch_guardian_page(
         "from-date": from_date,
         "to-date": to_date,
         "page": page,
-        "page-size": 50,
+        "page-size": page_size,
         "show-fields": "headline,trailText,bodyText",
     }
 
@@ -102,10 +103,9 @@ def inspect_results(data: dict) -> None:
 
 
 def main():
-    # 输出文件路径：固定写到 data/raw/ 下
     output_path = Path("data/raw/guardian_sample_page1.json")
 
-    data = fetch_guardian_page(page=1, query="politics")
+    data = fetch_guardian_page(page=1, page_size=100, query="politics")
     save_json(data, output_path)
     inspect_results(data)
 
