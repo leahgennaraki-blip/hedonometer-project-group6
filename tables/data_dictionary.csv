@@ -1,0 +1,9 @@
+column,dtype,n_missing,example_value
+word,string,0,laughter
+happiness_rank,int64,0,1
+happiness_average,float64,0,8.5
+happiness_standard_deviation,float64,0,0.9313
+twitter_rank,float64,5222,3600.0
+google_rank,float64,5222,
+nyt_rank,float64,5222,
+lyrics_rank,float64,5222,1728.0
