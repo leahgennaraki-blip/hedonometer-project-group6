@@ -1,7 +1,0 @@
-metric,value
-count,10222.0
-mean,5.375239679123459
-median,5.44
-std,1.0849046665419084
-p05 (5th percentile),3.18
-p95 (95th percentile),7.08
