@@ -385,3 +385,16 @@ Yuki/Yuxuan's responsibilites included creating the data dictionary and sanity c
 Chrysoula was responsible for parts of the qualitative exploration and of the critical reflection of the dataset. Her work included generating a qualitative exhibit of words and conducting an interpretive analysis of the dataset, with a particular focus on disagreement, neutrality, deviation, and the polarising effect. She also wrote the reconstruction of the data pipeline, paying close attention to the Dodds reading, and contributed to the discussion of dataset design choices by writing Choices 1, 2, and 3.
 
 Arav was responsible for great deal of the code for the quantitative exploration of the dataset. He worked closely with Tianye.
+
+
+# Guardian Happiness
+
+Notice 1st:
+Everytime before you run the fetch_guardian.py ,please do the following API insert.
+
+export GUARDIAN_API_KEY="58c0dc70-4dbe-4fe7-bd36-852f7f5b6e1c"
+echo $GUARDIAN_API_KEY
+
+Set the correct route for REPL before running it in an Interactive window
+import os
+os.chdir("/Users/boranzhang/Desktop/Coding The Humanities/group_project/Group_6_Project/CtH_group6/project2")
