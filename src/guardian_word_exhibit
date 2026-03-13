@@ -1,0 +1,58 @@
+from load_labmt import load_labmt
+from compute_labmt_scores import tokenize 
+from quantitative_exploration import analyse_disagreement 
+from quantitative_exploration import save_csv
+from quantitative_exploration import save_figure
+import pandas as pd
+from pathlib import Path
+import matplotlib.pyplot as plt
+import numpy as np
+
+processed_path = Path("data/processed/guardian_articles_processed.csv")
+df = pd.read_csv(processed_path)
+print("Loaded processed articles:", df.shape)
+
+    # 2. 加载 labMT 词典
+labmt_path = Path("data/raw/Data_Set_S1.txt")
+labmt_df = load_labmt(labmt_path)
+
+    # === 根据你实际的列名修改下面两个变量 ===
+word_col = "word"               # 单词列
+score_col = "happiness_average" # happiness 列
+std_col = "happiness_standard_deviation"
+    # =======================================
+
+word_to_score = dict(zip(labmt_df[word_col], labmt_df[score_col]))
+word_to_std = dict(zip(labmt_df[word_col], labmt_df[std_col]))
+print(f"Loaded labMT lexicon with {len(word_to_score)} words")
+
+    # 3. 对每篇文章计算 happiness + 命中词数
+def compute_happiness(text: str):
+        tokens = tokenize(text)
+        scores = [word_to_score[w] for w in tokens if w in word_to_score]
+        if not scores:
+            return np.nan
+        return float(np.mean(scores))
+
+def count_labmt_words(text: str):
+        tokens = tokenize(text)
+        return sum(1 for w in tokens if w in word_to_score)
+
+df["happiness"] = df["body_text"].apply(compute_happiness)
+df["labmt_token_count"] = df["body_text"].apply(count_labmt_words)
+
+print(df)
+
+df["tokens"] = df["body_text"].apply(tokenize)
+df["tokens_in_labmt"] = df["tokens"].apply(
+    lambda toks: [w for w in toks if w in word_to_score]
+)
+
+word_df = df[["tokens_in_labmt"]].explode("tokens_in_labmt").rename(
+    columns={"tokens_in_labmt": "word"}
+)
+word_df["happiness_score"] = word_df["word"].map(word_to_score)
+word_df["happiness_std"] = word_df["word"].map(word_to_std)
+
+print(word_df)
+save_csv(word_df, "guardian_word_scores", index=False)
