@@ -261,11 +261,86 @@ For each corpus there are 5000 labMT words with a recorded rank. This indicates 
 
 ### 4.2 Qualitative exploration
 
-![Top 10 words and their ranks/standard deviation in categories: very positive, very negative, highly contested, and polarizing](figures/labmt_top_10_per_cat)
+#### Top 10 words and their ranks/standard deviation in categories: very positive, very negative, highly contested, and polarizing]
+
+##### Very positive
+
+| word      | happiness_average |
+|----------|-------------------|
+| laughter | 8.50              |
+| happiness| 8.44              |
+| love     | 8.42              |
+| happy    | 8.30              |
+| laughed  | 8.26              |
+| laugh    | 8.22              |
+| laughing | 8.20              |
+| laughs   | 8.18              |
+| excellent| 8.18              |
+| joy      | 8.16              |
+
+##### Very negative
+
+| word     | happiness_average |
+|---------|-------------------|
+| terrorist | 1.30            |
+| suicide   | 1.30            |
+| rape      | 1.44            |
+| terrorism | 1.48            |
+| murder    | 1.48            |
+| death     | 1.54            |
+| cancer    | 1.54            |
+| killed    | 1.56            |
+| kill      | 1.56            |
+| died      | 1.56            |
+
+##### Highly contested
+
+| word       | happiness_average | happiness_standard_deviation |
+|-----------|-------------------|------------------------------|
+| fucking   | 4.64              | 2.926                        |
+| fuckin    | 3.86              | 2.741                        |
+| fucked    | 3.56              | 2.712                        |
+| pussy     | 4.80              | 2.665                        |
+| whiskey   | 5.72              | 2.642                        |
+| slut      | 3.57              | 2.630                        |
+| cigarettes| 3.31              | 2.600                        |
+| fuck      | 4.14              | 2.579                        |
+| mortality | 4.38              | 2.555                        |
+| cigarette | 3.09              | 2.516                        |
+
+##### Polarizing
+
+| word       | happiness_average | happiness_standard_deviation |
+|-----------|-------------------|------------------------------|
+| fucking   | 4.64              | 2.926                        |
+| pussy     | 4.80              | 2.665                        |
+| capitalism| 5.16              | 2.452                        |
+| capitalist| 4.84              | 2.342                        |
+| islam     | 4.68              | 2.325                        |
+| pay       | 5.30              | 2.323                        |
+| alcohol   | 5.20              | 2.321                        |
+| thunder   | 5.06              | 2.298                        |
+| liquor    | 5.36              | 2.284                        |
+| wolves    | 4.65              | 2.278                        |
 
 The file shows 4 tables of the 10 most positive, 10 most negative, 10 of the most highly contested and 10 of the most polarizing words and their happiness ranks and/or standard deviation as needed.
 
-![The "Word exhibit" table](figures/labmt_word_exhibit)
+#### The "Word exhibit" table
+
+##### Word exhibit
+
+| very positive words | very negative words | highly contested words | polarizing words |
+|---------------------|---------------------|------------------------|------------------|
+| laughter            | terrorist           | fucking                | fucking          |
+| happiness           | suicide             | fuckin                 | pussy            |
+| love                | rape                | fucked                 | capitalism       |
+| happy               | terrorism           | pussy                  | capitalist       |
+| laughed             | murder              | whiskey                | islam            |
+| laugh               | death               | slut                   | pay              |
+| laughing            | cancer              | cigarettes             | alcohol          |
+| laughs              | killed              | fuck                   | thunder          |
+| excellent           | kill                | mortality              | liquor           |
+| joy                 | died                | cigarette              | wolves           |
 
 The file includes the categories and words mentioned in the labmt_top_10_per_cat.png in one table without their ranks nor their standard deviation.
 
