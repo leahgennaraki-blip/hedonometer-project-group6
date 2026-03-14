@@ -186,10 +186,10 @@ We generated binary flags for corpus presence and analysed overlap patterns, cre
 
 ### 3.3 Method for qualitative exploration
 
-We first imported the cleaned dataset using the function load_labmt from the data cleaning file load_labmt.py. We also imported the analyse_disagreement function, the save_csv function and the save_figure function from the quantitative_exploration.py file, as well as pandas and matplotlib.pyplot. Our goal was to have the happiness ranks and standard deviations for all words so that we could create our qualitative exploration "Word exhibit". We created separate tables showcasing the 5 most positive, negative, highly contested and polarizing words (the last category was our addition to the requirements of the assignment), as well as their happiness rank and/or (where pertinent) standard deviation. After printing all tables so that we get an idea of what kinds of words make up each category, we created a new table that included all the aforementioned categories in decending order. Using the save_csv function we saved a comma-delimited file in the tables folder that included our word exhibit.
+We first imported the cleaned dataset using the function load_labmt from the data cleaning file load_labmt.py. We also imported the analyse_disagreement function, the save_csv function and the save_figure function from the quantitative_exploration.py file, as well as pandas and matplotlib.pyplot. Our goal was to have the happiness ranks and standard deviations for all words so that we could create our qualitative exploration "Word exhibit". We created separate tables showcasing the 10 most positive, negative, highly contested and polarizing words (the last category was our addition to the requirements of the assignment), as well as their happiness rank and/or (where pertinent) standard deviation. After printing all tables so that we get an idea of what kinds of words make up each category, we created a new table that included all the aforementioned categories in decending order. Using the save_csv function we saved a comma-delimited file in the tables folder that included our word exhibit.
 Lastly, we created two  .png files, one with the separate categories we looked into and their happiness rank/standard deviation and one with the word exhibit as a summative plot.
 
-## 4. Result section 
+## 4. Results 
 
 ### 4.1 Quantitative exploration
 
@@ -261,22 +261,22 @@ For each corpus there are 5000 labMT words with a recorded rank. This indicates 
 
 ### 4.2 Qualitative exploration
 
-![Top 5 words and their ranks/standard deviation in categories: very positive, very negative, highly contested, and polarizing](figures/Top_5_separate.png)
+![Top 10 words and their ranks/standard deviation in categories: very positive, very negative, highly contested, and polarizing](figures/labmt_top_10_per_cat)
 
-The file shows 4 tables of the 5 most positive, 5 most negative, 5 of the most highly contested and 5 of the most polarizing words and their happiness ranks and/or standard deviation as needed.
+The file shows 4 tables of the 10 most positive, 10 most negative, 10 of the most highly contested and 10 of the most polarizing words and their happiness ranks and/or standard deviation as needed.
 
-![The "Word exhibit" table](figures/word_exhibit.png)
+![The "Word exhibit" table](figures/labmt_word_exhibit)
 
-The file includes the categories and words mentioned in the Top_5_separate.png in one table without their ranks nor their standard deviation.
+The file includes the categories and words mentioned in the labmt_top_10_per_cat.png in one table without their ranks nor their standard deviation.
 
 ## 5. Qualitative "exhibit" of words
 
 TL;DR
-In qualitative_exploration.py, we used cleaned data from load_labmt.py and quantitative conclusions from quantitative_exploration.py to create a "summary table" of the top 5 words in categories: "very positive", "very negative", "highly contested", "polarizing".
+In qualitative_exploration.py, we used cleaned data from load_labmt.py and quantitative conclusions from quantitative_exploration.py to create a "summary table" of the top 10 words in categories: "very positive", "very negative", "highly contested", "polarizing".
 
 -We discerned the correlations between and within the columns of tables created in the loading of the data and the quantitative exploration stages.
--We  built categories that give us the first 5 words as indicative examples that fulfill the categories' requirements, and allow us to have a bird’s-eye view of the dataset, while contingencies and specificity of the categories.
--We chose to analyse the following categories: 5 very positive, 5 very negative, 5 highly contested, and 5 polarizing. The first two categories are defined by the happiness average score, the highly contested category by a high standard deviation column, and the polarizing category by words that have a near-neutral average but high deviation.
+-We  built categories that give us the first 10 words as indicative examples that fulfill the categories' requirements, and allow us to have a bird’s-eye view of the dataset, while contingencies and specificity of the categories.
+-We chose to analyse the following categories: 10 very positive, 10 very negative, 10 highly contested, and 10 polarizing. The first two categories are defined by the happiness average score, the highly contested category by a high standard deviation column, and the polarizing category by words that have a near-neutral average but high deviation.
 
 We can observe that the very positive words in our exhibit, such as laughter, happiness, love, happy, have very high happiness scores and low disagreement, and the very negative words (terrorist, suicide, rape, murder) have very low happiness scores and also relatively low disagreement. On the other hand, the highly contested words such as fucking, pussy, and whiskey have very high disagreement scores. This shows that people do not agree on how positive or negative these words are. 
 
@@ -369,7 +369,7 @@ We would:
 
 ## 7. How to run the code 
 
-The files in src/ include the runable code for this project. Starting from src/load_labmt.py to load the cleaned data, we then moved to quantitative_exploration.py where the standard deviation, average happiness etc are calculated in the form of reusable functions and where relevant plots (hist_happiness_average.png, scatter_happiness_vs_std.png, bar_corpus_rank_coverage.png) are created and saved in figures/. By running the code in qualitative_exploration.py, we are entering the final stage of the project in its current form, where the 5 most positive, most negative, highly contested and polarizing words are are fetched. The code in qualitative_exploration.py also generates the two plots relating to 1. the 4 aforementioned categories (Top_5_separate.png) and 2. the "word exhibit" (word_exhibit.png).
+The files in src/ include the runable code for this project. Starting from src/load_labmt.py to load the cleaned data, we then moved to quantitative_exploration.py where the standard deviation, average happiness etc are calculated in the form of reusable functions and where relevant plots (hist_happiness_average.png, scatter_happiness_vs_std.png, bar_corpus_rank_coverage.png) are created and saved in figures/. By running the code in qualitative_exploration.py, we are entering the final stage of the project in its current form, where the 10 most positive, most negative, highly contested and polarizing words are are fetched. The code in qualitative_exploration.py also generates the two plots relating to 1. the 4 aforementioned categories (labmt_top_10_per_cat.png) and 2. the "word exhibit" (labmt_word_exhibit.png).
 
 ## 8. Credits and role
 Before starting our group task, we divided the work according to the requirements.
