@@ -32,3 +32,4 @@ df_comparative = pd.concat([df_labmt, df_guardian], axis=1)
 print("Comparative word exhibit:\n", df_comparative)
 
 save_csv(df_comparative, "comparative_word_exhibit", index=False)
+
