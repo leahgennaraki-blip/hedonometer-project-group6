@@ -1,0 +1,34 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from pathlib import Path
+from quantitative_exploration import save_csv
+from quantitative_exploration import save_figure
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+FIGURES_DIR = ROOT / "figures"
+TABLES_DIR = ROOT / "tables"
+
+FIGURES_DIR.mkdir(exist_ok=True)
+TABLES_DIR.mkdir(exist_ok=True)
+
+# === 1. Set paths to your CSV files ===
+# Example: your code is in /project/scripts/
+# CSVs are in /project/data/
+
+labmt_exhibit_path = f"{TABLES_DIR}/labmt_word_exhibit"  # adjust to your real path
+guardian_exhibit_path = f"{TABLES_DIR}/guardian_word_exhibit"  # adjust to your real path
+
+# === 2. Load the data ===
+df_labmt = pd.read_csv(labmt_exhibit_path)
+df_guardian = pd.read_csv(guardian_exhibit_path)
+
+df_labmt = df_labmt.add_prefix("labMT 1.0_")
+df_guardian = df_guardian.add_prefix("Guardian_")
+
+df_comparative = pd.concat([df_labmt, df_guardian], axis=1)
+
+print("Comparative word exhibit:\n", df_comparative)
+
+save_csv(df_comparative, "comparative_word_exhibit", index=False)

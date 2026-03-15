@@ -59,7 +59,7 @@ word_exhibit = pd.DataFrame({
 print("Word exhibit:\n", word_exhibit)
 print(word_exhibit.columns)
 
-save_csv(word_exhibit, "Word exhibit", index=False)
+save_csv(word_exhibit, "labmt_word_exhibit", index=False)
 
 vp_tbl = very_positive[["word", "happiness_average"]]
 vn_tbl = very_negative[["word", "happiness_average"]]
@@ -95,7 +95,7 @@ save_figure("labmt_top_10_per_cat")
 
 fig, ax = plt.subplots(figsize=(10, 3))
 ax.axis("off")
-ax.set_title("Word exhibit", fontweight="bold", pad=10, y=1.05)
+ax.set_title("labmt_word_exhibit", fontweight="bold", pad=10, y=1.05)
 
 table = ax.table(
     cellText=word_exhibit.values,
