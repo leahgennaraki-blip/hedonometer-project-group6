@@ -1,0 +1,36 @@
+ANALYSIS RESULTS
+============================================================
+
+Sampling plan:
+Sample: Guardian articles from periods 2010‑13 and 2020‑23, sections 'World news', 'Politics', 'Opinion', with valid happiness scores.
+Population: Hypothetical superpopulation of all possible articles under similar conditions.
+
+Descriptive statistics by group:
+                        count   mean    std    min    25%    50%    75%    max   skew  kurtosis
+section_name period                                                                            
+Opinion      2010-2013   25.0  5.749  0.254  5.192  5.613  5.799  5.914  6.204 -0.520     0.044
+             2020-2023   31.0  5.866  0.240  5.455  5.720  5.858  6.046  6.461  0.337    -0.084
+Politics     2010-2013   79.0  6.061  0.275  5.590  5.794  6.090  6.331  6.430 -0.206    -1.681
+             2020-2023   26.0  5.933  0.207  5.581  5.764  5.956  6.109  6.276 -0.101    -1.076
+World news   2010-2013   18.0  5.897  0.225  5.291  5.797  5.919  6.016  6.235 -0.985     2.031
+             2020-2023   18.0  5.845  0.319  5.271  5.629  5.850  6.064  6.443 -0.064    -0.491
+
+Comparison 1: Period difference overall
+Mean diff = -0.088, 95% CI [-0.163, -0.013]
+
+Comparison 2: Section differences
+World news vs Politics: diff = 0.159 [95% CI 0.058, 0.262]
+World news vs Opinion: diff = -0.057 [95% CI -0.167, 0.054]
+Politics vs Opinion: diff = -0.214 [95% CI -0.298, -0.132]
+
+Comparison 3: Period difference within each section
+World news: change = -0.051 [95% CI -0.228, 0.122]
+Politics: change = -0.127 [95% CI -0.226, -0.028]
+Opinion: change = 0.117 [95% CI -0.013, 0.248]
+
+Coverage:
+period        2010-2013  2020-2023
+section_name                      
+Opinion           0.191      0.190
+Politics          0.198      0.189
+World news        0.194      0.201

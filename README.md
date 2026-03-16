@@ -468,6 +468,13 @@ We ventured to determine the trend in happiness for the Guardian by examining th
 
 ## Guardian Results
 
+Set the correct route for REPL before running it in an Interactive window
+import os
+os.chdir("/Users/boranzhang/Desktop/Coding The Humanities/group_project/Group_6_Project/CtH_group6/project2")
+
+
+## Guardian Results
+
 ### Sampling plan
 
 - Sample: All Guardian articles retrieved from the API for the periods 2010‑13 and 2020‑23,
