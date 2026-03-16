@@ -707,7 +707,7 @@ Overall, the word exhibit illustrates how the emotional vocabulary of the Guardi
 
 ## Bibliography
 
-Anderson, B. (1983). *Imagined Communities*
+Anderson, B. (1983). *Imagined Communities*.
 Boydstun, A., Hardy, A., & Walgrave, S. (2014). *Two Faces of Media Attention*.
 McCombs, M., & Shaw, D. (1972). *The Agenda-Setting Function of Mass Media*.
 Said, E. (1994). *Representations of the Intellectual*.
