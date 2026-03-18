@@ -464,7 +464,7 @@ Arav was responsible for great deal of the code for the quantitative exploration
 
 # Guardian Happiness
 
-We ventured to determine the trend in happiness for the Guardian by examining three ideologically loaded categories -Politics, World News, and Opinion- across 2 chronological periods, namely the early 2010s (2010-2013) and early 2020s (2020-2023). Our aim is to determine how specific conjenctures can be read through the deployment of the hedonometer on a body of work. We chose the aforementioned time periods in relation to milestone historical events, shifts in political affect and urgent social issues. 
+We ventured to determine the trend in happiness for the Guardian by examining three ideologically loaded categories -Politics, World News, and Opinion- across 2 chronological periods, namely the early 2010s (2010-2013) and early 2020s (2020-2023). Our aim is to determine how specific conjunctures can be read through the deployment of the hedonometer on a body of work. We chose the aforementioned time periods in relation to milestone historical events, shifts in political affect and urgent social issues. 
 
 ## Guardian Results
 
