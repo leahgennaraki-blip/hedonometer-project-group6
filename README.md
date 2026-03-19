@@ -2,7 +2,7 @@
 
 This project explores the function of the *hedonometer*, originally introduced by Dodds et al. (2011), to determine the trend in happiness for specific chronological and generic instances of **The Guardian**. 
 The credibility of the **labMT 1.0** (“language assessment by Mechanical Turk”) dataset used for the hedonometer is assessed through the deployment of quantitative analysis (distributions, corpus comparisons) with qualitative close reading of selected words to reflect on what this dataset can –and cannot– tell us about “happiness” in language.
-From The Guardian, three ideologically loaded categories -Politics, World News, and Opinion- and two chronological periods -the early 2010s (2010-2013) and early 2020s (2020-2023)- are examined. Our aim is to determine how specific conjunctures can be read through the deployment of the hedonometer on a body of work, expecially in the case of a body that is itself conjunctural.
+From The Guardian, three ideologically loaded categories -Politics, World News, and Opinion- and two chronological periods -the early 2010s (2010-2013) and early 2020s (2020-2023)- are examined. Our aim is to determine how specific conjunctures can be read through the deployment of the hedonometer on a body of work, especially in the case of a body that is itself conjunctural.
 
 ---
 
@@ -50,7 +50,7 @@ The file we use is a **tab‑delimited text file** with several metadata lines a
 
 ---
 
-We load the dataset using Python + `pandas` as follows: [7]
+We load the dataset as follows:
 
 - We read the raw tab‑delimited file `data/raw/Data_Set_S1.txt`.
 - Because the file contains metadata/comment lines at the top, we **search for the header row** programmatically by looking for the first line that contains both the strings `word` and `happiness` separated by tabs.
@@ -62,9 +62,7 @@ We load the dataset using Python + `pandas` as follows: [7]
 - After loading, we:
   - strip whitespace from column names,
   - convert all columns except `word` to numeric types using `pd.to_numeric(errors="coerce")`,
-  - strip whitespace from the `word` column. [0][1][9][10]
-
-This pipeline implements all code tasks for **Task 1.1 (Load the file)** from the assignment.
+  - strip whitespace from the `word` column.
 
 **Shape of the cleaned DataFrame**
 
@@ -169,11 +167,7 @@ The most negative words include:
 
 These results do indeed conform to people's perception of happiness.
 
-However, what “makes sense” can also dependent on the cultural backdrop and contextual information. The happiness scores represent average judgments from Mechanical Turk workers, not universal emotional truths. Words may evoke different emotional responses in different communities or contexts.
-
-#### The usage of AI tools
- 
-We utilized intelligent tools, including UVA AI, to assist in writing and modifying our code. AI is a great help to us quickly learn code and advance tasks. We use it to guide us in writing code and help us analyze errors. At the same time, we don't forget not to lose control of the code. We require the AI ​​to interpret everything it generates to ensure that the entire project is always under our control, and to let the AI ​​only serve as an auxiliary tool to provide technical support. AI was of particular use in the creation of plots for the qualitative analysis, as well as for piecing together interpretations of the code written by our team members. 
+However, what “makes sense” can also dependent on the cultural backdrop and contextual information. The happiness scores represent average judgments from Mechanical Turk workers, not universal emotional truths. Words may evoke different emotional responses in different communities or contexts. More on what evades the hedonometer appears in  **Analysis results for labMT 1.0** and **Critically reflecting on labMT 1.0**. 
 
 ### Method for quantitative exploration of labMT 1.0
 
@@ -221,17 +215,12 @@ We can observe that the very positive words in our exhibit, such as laughter, ha
 
 Agreement and disagreement become a useful concept to read this dataset, because they show that the meanings of some words are relatively stable and widely shared (in the highly positive and highly negative categories), while others are unstable and dependent on context. If we were to look only at the very positive or negative categories, it would feel intuitive that these words receive such scores. However, this intuition fades as we move further from these extreme categories to the more neutral words of the dataset. This is exactly where we can see _tension in meaning_. Words closer to the middle of the scale begin to reveal ambiguity. As much as agreement in happiness scores suggests shared understanding in meaning, neutrality but also disagreement reveals limits of consensus. The category of highly contested words disrupts the notion that meaning is stable, showing that words can be interpreted by some as positive and by others as negative. Words such as fucking or pussy may be used differently across generations, genders, or subcultures. In some communities they function as insults and in others they can be even used as terms of empowerment.
 
-Our deliberate choice of polarizing words as an additional concept we can use to analyse this dataset is based on an interest in comparing them to highly contested words and interpret their differences. In the polarizing word category the average happiness score is near neutral, but disagreement is high. In contrast with the highly contested ones, which may still lean slightly positive or negative overall, the polarizing category shows how strong disagreement can completely hide behind a neutral score. Why is that important? Because it is hard to discern the conflict that occurs when trying to define meaning. The difference of opinion still exists, but it is difficult to take into account.
-
-Overall, what this dataset illustrates is that conscious emotional register does not always reflect the significance of meaning. A word that does not consciously "feel" particularly happy or sad can be one that people have invested their entire being in (an interesting example is "home", a word perhaps neutral to a privileged person but infinitely emotionally charged for a houseless individual or displaced populations).
-
-#### Contested words
-
 ![Figure 2](figures/scatter_happiness_vs_std.png)
 ***Figure 2:** Scatter plot for word occurences by their happiness scores against happiness standard deviations*
 
-Most words cluster around a happiness score of about 5–6, where the standard deviation is relatively low, indicating that annotators generally agree on the emotional valence of neutral or slightly positive words. As words become more extremely negative or positive, the standard deviation tends to increase slightly, suggesting greater disagreement among annotators about the emotional meaning of these words. Overall, the plot indicates that while most words have moderate happiness scores with relatively consistent ratings, words with stronger emotional connotations tend to produce more variability in human judgments.
+We deliberately chose polarizing words as an additional word category. While polarizing words are by definition highly contested, their  happiness score is near neutral. In contrast with other highly contested words, which may still lean slightly positive or negative overall, the polarizing category shows how strong disagreement can completely hide behind a neutral score, revealing polysemy or a deep meaning-making divide in society. Why is that important? Because it is hard to discern the specificities and intricacies of the conflict that occurs when trying to define meaning. While the divide in words whose original meaning is imply layered with a new one (for instance, `slut` as an offensive word being used as a form of empowerment within specific communities) still preserves a positive or negative inclination according to the strength of the metonymy-in-process, polarizing words reveal the symmetrical heterogeneity of the metonymies that have been embedded popular culture. Words like `pay` become problematized in relation to another concept that appears to be polarizing, namely `capitalism`. 
 
+Overall, this dataset illustrates that overt emotional register does not always reflect the significance of meaning. A word that does not explicitly "feel" particularly happy or sad can be one that people have invested their entire being in (an interesting example is `islam`, a word that, even though reflecting nothing more than a religious practice, has gone through multiple levels of societal mediation making it a polarizing topic).
 
 **5 of the 15 most contested words:**
 
@@ -257,7 +246,7 @@ Most words cluster around a happiness score of about 5–6, where the standard d
 
 **Connection to quantitative pattern:** All five words except for `churches` have happiness scores lower than but not too far from the mean (`capitalism` comes close with 5.16), and all have SD > 2. This suggests that people are split, but not necessarily in terms of extremes of happiness.
 
-#### Rank comparisions & overlaps
+#### Rank comparisons & overlaps
 
 For each corpus there are 5000 labMT words with a recorded rank. This indicates that the labMT dataset contains sentiment scores for all the top 5000 most frequent words in each of these corpora. In other words, the sentiment lexicon has full coverage of the top-frequency vocabulary across these four text sources, allowing consistent sentiment analysis across social media (Twitter), books (Google), news (NYT), and music lyrics.
 
@@ -278,16 +267,11 @@ For each corpus there are 5000 labMT words with a recorded rank. This indicates 
   - Higher overlap between google and nyt: suggesting common words represent less usage of informal language conventions in these corpora
   - Higher overlap between twitter and lyrics: suggesting common words represent freer usage of informal language conventions
 
-**Word that is common in twitter but missing in NYT**
-
-`im:` people find it easier to freely use word contractions and colloquial spelling conventions in a social media platform, whereas writers for a media page do not have such freedom (yet) due to strong prescriptive attitudes toward standardised language usage in formal contexts.
-
-
 ### Critically reflecting on labMT 1.0 
 						
 #### Consequences and limitations 
 
-**Choice 1**: Measuring happiness on a 1–9 numerical scale
+**Choice 1**: Homogenizing happiness on a 1–9 numerical scale
   - What they did:
     - The researchers asked raters to assign each word a numerical happiness score from 1 to 9
   - Consequence:
@@ -338,7 +322,7 @@ For each corpus there are 5000 labMT words with a recorded rank. This indicates 
 #### If you were to use this dataset as an instrument today... 
 
 ##### What would you trust this dataset to measure well?
-The dataset is particularly reliable for detecting large-scale mood shifts over time. Random noise and individual-level variation tend to average out when applied to millions of words. This makes the instrument suited for identifying long-term trends and emotional reactions to major public events at the macro level. It can also indicate general patterns in how people typically use words to express positive or negative emotion across common contexts. 
+The dataset is particularly reliable for detecting large-scale affect shifts in popular culture over time. Random noise and individual-level variation tend to average out when applied to millions of words. This makes the instrument suited for identifying long-term trends and emotional reactions to major public events at the macro level. It can also indicate general patterns in how people typically use words to express positive or negative emotion across common contexts. 
 In addition, by comparing word frequency patterns and happiness value, the dataset can be used to analyze differences in linguistic style across platforms, which reveals how various media environments encode and circulate emotional language differently. Finally, it can be used to identify large-scale moods per corpus. 
 
 ##### What would you refuse to claim based on it?
@@ -439,6 +423,7 @@ The overall trend observed was that Politics articles appear more positive than 
 Looking closely at our dataset offers some explanation to why Politcs articles scored slightly more positively. Many politics articles indeed include institutional language with reccuring words such as policy and government. In the labMT dictionary, these words typically receive higher scores (usually neutral). In contrast, words associated with conflict, war, or crisis are more common in World News and receive lower scores in the lexicon.
 
 #### Comparison 3: Period Change Within Each Section
+
 - **World news**: No significant change (diff = <!--[DIFF_WN]--> **-0.052**, 95% CI <!--[LOWER, UPPER]--> -0.228, 0.129).
 - **Politics**: Significant decrease of <!--[DIFF_P]--> **-0.127** points (95% CI <!--[LOWER, UPPER]--> -0.227, -0.029).
 - **Opinion**: No significant change (diff = <!--[DIFF_O]--> **0.118**, 95% CI <!--[LOWER, UPPER]--> -0.009, 0.250), though the interval is mostly positive, hinting at a possible increase.
@@ -453,13 +438,14 @@ Fig 8 shows the point estimates with 95% confidence intervals for each group, ma
 ![Mean happiness by section and period with 95% CI](figures/mean_ci_by_section_period.png)  
 *Figure 8: Point plot with 95% confidence intervals for each section‑period group.*
 
-**Critical reflection**
+**Critical analysis**
 
 The bootstrapped distribution of means of happiness scores per period by section reveals deviations between different chronological periods of the same section, different sections within the same period, and, arguably most importantly, positions each chronologically bound section on the happiness scale. Since the deviations happen within the span of 5.6 to 6.2 happiness mean score, the neutrality of the genre of journalism has to be taken into consideration. However, it is noteworthy that, for instance, the 2010-2013 Opinions section of the Guardian is the least happy conjuncture from the data we examined, while Politics 2010-2013 is the happiest. World News from 2010-2013 also seems to be slightly happier than in 2020-2023. With 2010-2013 sections occupying both ends of the bootstrapped distribution and two out of the three sections examined scoring higher than their counterparts in 2020-2023, it seems reasonable to talk of a divide between what official report fully endorsed by the institution aims to convey and what individual journalists and public intellectuals have to say about current events in the early 2010s (Said 1994). 
 
 The Opinion and Politics sections for 2020-2023 seems to be closer to alignment. Politics is still holding the happier position from the two, however Opinion seems to not be falling that far behind. This “bridging” of the gap between the two categories in later years may signify a more censored journalistic exposure, with pieces that challenge the overall affective ambience of the Guardian being replaced with viewpoints on current events that are more affirmative of the institution that hosts them. Interestingly, World News from the early 2020s occupy the least happy positions of the period, exhibiting a slight trend to a more neutral, or perhaps less positive, position on reporting. Compared to World News from 2010-2013, World News 2020-2023 is visibly less positive. Such a trend could relate to the rise of isolationist alt-right sentiments in the US, prioritizing the nation as source of happiness while upholding a specific kind of epistemic, cultural and, as could be deduced from our data, affective hierarchy on the premise of national borders (Anderson 1983git add ). 
 
 #### Coverage
+
 On average, only about 19-20% of words per article contributed to the happiness scores. This means the scores are based on a limited emotional vocabulary, which should be considered when interpreting the results.
 
 | Section     | 2010‑13 | 2020‑23 |
@@ -586,6 +572,8 @@ Overall, the word exhibit illustrates how the emotional vocabulary of the Guardi
 
 The files in src/ include the runable code for this project. Starting from src/load_labmt.py to load the cleaned data, we then moved to quantitative_exploration.py where the standard deviation, average happiness etc are calculated in the form of reusable functions and where relevant plots (hist_happiness_average.png, scatter_happiness_vs_std.png, bar_corpus_rank_coverage.png) are created and saved in figures/. By running the code in qualitative_exploration.py, we are entering the final stage of the project in its current form, where the 10 most positive, most negative, highly contested and polarizing words are are fetched. The code in qualitative_exploration.py also generates the two plots relating to 1. the 4 aforementioned categories (labmt_top_10_per_cat.png) and 2. the "word exhibit" (labmt_word_exhibit.png).
 
+++++ the rest of the code (for deadline 2)
+
 ## Credits and role
 
 Kevin's responsibilities included managing the Git repository and coordinating the synchronization process. Git repositories are efficient tools for sharing code and collaborating, but most of our group members had never used Git before. Therefore, Kevin first familiarized himself with Git repositories, helped create the job's reprocitories, and guided the others in linking them. We also discovered that if multiple people were editing code simultaneously, Git might encounter errors when pushing updates, so coordinating the editing order and timing was crucial.
@@ -599,6 +587,12 @@ Yuki/Yuxuan's responsibilites included creating the data dictionary and sanity c
 Chrysoula was responsible for parts of the qualitative exploration and of the critical reflection of the dataset. Her work included generating a qualitative exhibit of words and conducting an interpretive analysis of the dataset, with a particular focus on disagreement, neutrality, deviation, and the polarising effect. She also wrote the reconstruction of the data pipeline, paying close attention to the Dodds reading, and contributed to the discussion of dataset design choices by writing Choices 1, 2, and 3.
 
 Arav was responsible for great deal of the code for the quantitative exploration of the dataset. He worked closely with Tianye.
+
+++++ updated responsibilities 
+
+## The usage of AI tools
+ 
+We utilized intelligent tools, including UVA AI, to assist in writing and modifying our code. AI is a great help to us quickly learn code and advance tasks. We use it to guide us in writing code and help us analyze errors. At the same time, we don't forget not to lose control of the code. We require the AI ​​to interpret everything it generates to ensure that the entire project is always under our control, and to let the AI ​​only serve as an auxiliary tool to provide technical support. AI was of particular use in the creation of plots for the qualitative analysis, as well as for piecing together interpretations of the code written by our team members. 
 
 ## Bibliography
 
