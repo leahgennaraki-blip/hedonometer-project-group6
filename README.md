@@ -399,12 +399,47 @@ Fig 5 displays the bootstrap distributions of the mean happiness for each period
 *Figure 5: Bootstrap distributions of the mean happiness for each period, showing the uncertainty around the period means (all sections combined).*
 
 **Critical analysis**
-
-The overall slight decrease in happiness noticed in our dataset between the two periods (2010-2013 and 2020-2023) could be partly attributed to broader changes in the global political and social context of each era. Especially the years after 2020 have seen several major global crises, such as the COVID-19 pandemic and geopolitical conflicts such as the wars in Ukraine and Gaza. These events could be used to think of why there could be a general negative sentiment shift in media coverage. It is important to mention that the point is not to conclude that the second period has more extreme events or has seen worse incidents but we could use major crisis events during the second interval to begin to explain the emotional shifts in our examined dataset. 
+ The overall slight decrease in happiness noticed in our dataset between the two periods (2010-2013 and 2020-2023) could be partly attributed to broader changes in the global political and social context of each era. Especially the years after 2020 have seen several major global crises, such as the COVID-19 pandemic and geopolitical conflicts such as the wars in Ukraine and Gaza. These events could be used to think of why there could be a general negative sentiment shift in media coverage. It is important to mention that the point is not to conclude that the second period has more extreme events or has seen worse incidents but we could use major crisis events during the second interval to begin to explain the emotional shifts in our examined dataset.
 
 With that in mind, global instability during the second period may have been mediated through the media in the form of conflict- and problem-focused narratives, resulting in a less positive overall tone in news. The slightly lower happiness scores observed in the later period may reflect the increased prominence of crisis-related language in the news that aligns with the political instability caused by these major events. (Boydstun, Hardy, and Walgrave 2014).
 
-However, the observed slight decrease should also be interpreted with caution, as it may partly reflect methodological characteristics of the hedonometer. The labMT lexicon, developed in the early 2010s, which is responsible for the happiness scoring, itself is influencing sentiment shift. As the words were initially captured in the 2010s, coinciding with the first period examined, changes in language and word usage might be obscured and under-represent for the second period. The lexicon was constructed from the most frequently occurring words in specific corpora (Google books, NYT, Twitter and lyrics) during the first period, and this means that the initial dataset could represent language patterns from the early 2010s more accurately than in the second period. Lastly, only words that appear in the lexicon contribute to the total happiness calculation. In our dataset, approximately 19% of the words in each article matched the labMT dictionary, so the sentiment score reflects just a subset of the article’s vocabulary. 
+One way to further contextualize this speculation is to look at the quality of the negativity of each period. This is explored through the filtered word exhibit (Table 3.), which shows the top 10 negative words for each period across the overall dataset. The findings show a difference in the type of negative vocabulary of each period. During the first period, we see words such as tax, bill, and opposition, which suggest that the negative tone is more related to financial or institutional issues, possibly linked to the post-economic crisis years. In the second period, however, the words war and crisis make an appearance among the most frequent. The word war, in particular, is important here, as it receives the lowest happiness score (1.8), driving the overall score down and suggesting the dominance of language centred on conflict. These findinngs could hint at a less peaceful global landscape during the second period, and a language use that reflects that.
+
+However, the observed slight decrease should also be interpreted with caution, as it may partly reflect methodological characteristics of the hedonometer. The labMT lexicon, developed in the early 2010s, which is responsible for the happiness scoring, itself is influencing the happiness shift. As the words were initially captured in the 2010s, coinciding with the first period examined, changes in language and word usage might be obscured and under-represent for the second period. The lexicon was constructed from the most frequently occurring words in specific corpora (Google books, NYT, Twitter and lyrics) during the first period, and this means that the initial dataset could represent language patterns from the early 2010s more accurately than in the second period. Lastly, only words that appear in the lexicon contribute to the total happiness calculation. In our dataset, approximately 19% of the words in each article matched the labMT dictionary, so the sentiment score reflects just a subset of the article’s vocabulary.
+
+**Table 3. Most frequent negative words per period (overall dataset)**
+
+### 2010–2013
+
+| word       | happiness_score |
+|------------|----------------|
+| not        | 3.86           |
+| no         | 3.48           |
+| last       | 3.74           |
+| bill       | 3.64           |
+| tax        | 2.86           |
+| down       | 3.66           |
+| against    | 3.40           |
+| opposition | 3.48           |
+| without    | 3.54           |
+| never      | 3.34           |
+
+### 2020–2023
+
+| word        | happiness_score |
+|-------------|----------------|
+| not         | 3.86           |
+| no          | 3.48           |
+| last        | 3.74           |
+| court       | 3.78           |
+| against     | 3.40           |
+| down        | 3.66           |
+| never       | 3.34           |
+| politicians | 3.34           |
+| war         | 1.80           |
+| crisis      | 2.48           |
+
+
 
 #### Comparison 2: Differences Between Sections
 Pairwise comparisons (ignoring period) reveal:
@@ -423,7 +458,33 @@ Now that the overall shift in happiness across time periods has been examined, i
 
 The overall trend observed was that Politics articles appear more positive than Opinion and World news. Here, it is useful to consider how media organisations such as the Guardian structure coverage around particular topics within different sections. From an agenda-setting perspective (McCombs and Shaw 1972), different sections tend to emphasise different types of issues and therefore employ different kinds of language. Opinion articles, for example, often involve commentary and critique and therefore use more critical vocabulary. The World News section frequently reports on major global events, conflicts, or crises, which can involve more negative terms. Political reporting often focuses on institutional processes such as policy, decisions and negotiations and therefore tends to rely on relatively neutral language. These differences in reporting style may therefore influence the sentiment scores observed across sections.
 
-Looking closely at our dataset offers some explanation to why Politcs articles scored slightly more positively. Many politics articles indeed include institutional language with reccuring words such as policy and government. In the labMT dictionary, these words typically receive higher scores (usually neutral). In contrast, words associated with conflict, war, or crisis are more common in World News and receive lower scores in the lexicon.
+The agreement and disagreement concepts also help to further understand these differences. As shown in the earlier analysis of the labMT dataset, words with extreme high and low happiness scores as well as neutral words, tend to have clearer, more stable meanings, while words in the middle of the scale are more contested and ambiguous. This becomes relevant here, where we compare sections. Opinion articles, which often use more subjective or expressive language, may include more of these in-between, contested words, which can introduce more variability in happiness scores. In contrast, Politics articles may rely more on words with clearer meanings, whose contribution to the happiness score is more stable. This helps explain why Politics articles appear slightly more positive, as their scores are less affected by ambiguous or inconsistent terms.
+
+Looking more closely at our dataset provides further insight into the observed trend. Since neutral words have been removed from the analysis, the difference between sections cannot be solely explained by the presence of neutral institutional language such as policy or government, usually present in Politcs. Instead, we should examine the remaining sentiment-bearing vocabulary across sections. To make this comparison more meaningful, the word exhibit (Table 4) focuses on more descriptive terms by excluding very short, function-like words. When looking at these words, we can see that the vocabulary across sections is still relatively similar. So the difference in happiness scores is not driven by a few clearly distinct terms. Rather, the variation appears to come from the overall distribution and intensity of words across articles. This means that Politics appears slightly more positive not because it contains clearly different or more positive words, but because its overall mix of vocabulary is somewhat less dominated by strongly negative terms than that of Opinion and World News.
+(see Table 4 below)
+
+**Table 4. Most frequent descriptive words per section  (overall dataset)**
+
+| politics_word   | world_news_word   | opinion_word   |
+|:----------------|:------------------|:---------------|
+| scotland        | security          | parties        |
+| country         | opposition        | country        |
+| support         | morning           | politicians    |
+| independence    | australian        | against        |
+| independent     | support           | problem        |
+| against         | australia         | democracy      |
+| stories         | country           | support        |
+| important       | parties           | international  |
+| without         | september         | without        |
+| believe         | package           | culture        |
+| international   | leadership        | security       |
+| morning         | against           | problems       |
+| england         | treasurer         | certainly      |
+| published       | independent       | democratic     |
+| housing         | agreement         | believe        |
+
+Looking at sections overall helps to explain differences in reporting styles and language variations across the dataset. However, to gain a more fine-grained view of how these patterns develop over time within each section, we should analyse the sections within each period.
+
 
 #### Comparison 3: Period Change Within Each Section
 
