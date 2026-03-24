@@ -461,7 +461,7 @@ The overall trend observed was that Politics articles appear more positive than 
 The agreement and disagreement concepts also help to further understand these differences. As shown in the earlier analysis of the labMT dataset, words with extreme high and low happiness scores as well as neutral words, tend to have clearer, more stable meanings, while words in the middle of the scale are more contested and ambiguous. This becomes relevant here, where we compare sections. Opinion articles, which often use more subjective or expressive language, may include more of these in-between, contested words, which can introduce more variability in happiness scores. In contrast, Politics articles may rely more on words with clearer meanings, whose contribution to the happiness score is more stable. This helps explain why Politics articles appear slightly more positive, as their scores are less affected by ambiguous or inconsistent terms.
 
 Looking more closely at our dataset provides further insight into the observed trend. Since neutral words have been removed from the analysis, the difference between sections cannot be solely explained by the presence of neutral institutional language such as policy or government, usually present in Politcs. Instead, we should examine the remaining sentiment-bearing vocabulary across sections. To make this comparison more meaningful, the word exhibit (Table 4) focuses on more descriptive terms by excluding very short, function-like words. When looking at these words, we can see that the vocabulary across sections is still relatively similar. So the difference in happiness scores is not driven by a few clearly distinct terms. Rather, the variation appears to come from the overall distribution and intensity of words across articles. This means that Politics appears slightly more positive not because it contains clearly different or more positive words, but because its overall mix of vocabulary is somewhat less dominated by strongly negative terms than that of Opinion and World News.
-(see Table 4 below)
+
 
 **Table 4. Most frequent descriptive words per section  (overall dataset)**
 
@@ -649,6 +649,7 @@ As revealed by our code in [](src/guardian_populism.py), our sample of The Guard
 The files in src/ include the runable code for this project. Starting from src/load_labmt.py to load the cleaned data, we then moved to quantitative_exploration.py where the standard deviation, average happiness etc are calculated in the form of reusable functions and where relevant plots (hist_happiness_average.png, scatter_happiness_vs_std.png, bar_corpus_rank_coverage.png) are created and saved in figures/. By running the code in qualitative_exploration.py, we are entering the final stage of the project in its current form, where the 10 most positive, most negative, highly contested and polarizing words are are fetched. The code in qualitative_exploration.py also generates the two plots relating to 1. the 4 aforementioned categories (labmt_top_10_per_cat.png) and 2. the "word exhibit" (labmt_word_exhibit.png).
 
 ++++ the rest of the code (for deadline 2)
+The scripts words_guardian_periods.py and words_guardian_quality.py extend the qualitative analysis to the Guardian dataset. By running words_guardian_periods.py, we generate a comparison of the most frequent negative words across the two time periods (Table 3.) The script words_guardian_quality.py focuses on differences across sections (Politics, World News, Opinion) by extracting the most frequent descriptive words while excluding short words (Table 4). Together, these scripts help link the quantitative results to qualitative patterns in language.
 
 ## Credits and role
 
@@ -660,7 +661,7 @@ Leah's responsibilities included creating the qualitative exploration word exhib
 
 Yuki/Yuxuan's responsibilites included creating the data dictionary and sanity cheaks. Collaborated with Sisi and Leah on the critical reflection (mainly 4.2 and the first and second of 4.3). 
 
-Chrysoula was responsible for parts of the qualitative exploration and of the critical reflection of the dataset. Her work included generating a qualitative exhibit of words and conducting an interpretive analysis of the dataset, with a particular focus on disagreement, neutrality, deviation, and the polarising effect. She also wrote the reconstruction of the data pipeline, paying close attention to the Dodds reading, and contributed to the discussion of dataset design choices by writing Choices 1, 2, and 3.
+Chrysoula contributed to the qualitative exploration and critical discussion of the assignment. She analysed the labMT dataset with a focus on disagreemt and meaning stability, and was also responsible for the interpretation of Comparisons 1 and 2 of the Guardian results, exploring overall happiness differences across time periods and sections.
 
 Arav was responsible for great deal of the code for the quantitative exploration of the dataset. He worked closely with Tianye.
 
