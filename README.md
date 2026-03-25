@@ -407,8 +407,6 @@ One way to further contextualize this speculation is to look at the quality of t
 
 However, the observed slight decrease should also be interpreted with caution, as it may partly reflect methodological characteristics of the hedonometer. The labMT lexicon, developed in the early 2010s, which is responsible for the happiness scoring, itself is influencing the happiness shift. As the words were initially captured in the 2010s, coinciding with the first period examined, changes in language and word usage might be obscured and under-represent for the second period. The lexicon was constructed from the most frequently occurring words in specific corpora (Google books, NYT, Twitter and lyrics) during the first period, and this means that the initial dataset could represent language patterns from the early 2010s more accurately than in the second period. Lastly, only words that appear in the lexicon contribute to the total happiness calculation. In our dataset, approximately 19% of the words in each article matched the labMT dictionary, so the sentiment score reflects just a subset of the article’s vocabulary.
 
-**Table 3. Most frequent negative words per period (overall dataset)**
-
 ### 2010–2013
 
 | word       | happiness_score |
@@ -439,7 +437,7 @@ However, the observed slight decrease should also be interpreted with caution, a
 | war         | 1.80           |
 | crisis      | 2.48           |
 
-
+*Table 3. Most frequent negative words per period (overall dataset)*
 
 #### Comparison 2: Differences Between Sections
 Pairwise comparisons (ignoring period) reveal:
@@ -663,6 +661,10 @@ The files in src/ include the runable code for this project. Starting from src/l
 The scripts words_guardian_periods.py and words_guardian_quality.py extend the qualitative analysis to the Guardian dataset. By running words_guardian_periods.py, we generate a comparison of the most frequent negative words across the two time periods (*Table 3*) The script words_guardian_quality.py focuses on differences across sections (Politics, World News, Opinion) by extracting the most frequent descriptive words while excluding short words (*Table 4*). The code in comparative_word_exhibit.py generates a word exhibit for The Guardian sample and juxtaposes it to the labMT 1.0 word exhibit. The differences between the two exhibits show what kinds of emotionally charged or disagreed upon words do and do not fit the style and emotional register of The Guardian. Together, these scripts help link the quantitative results to qualitative patterns in language.
 
 Our final qualitative examination of our chosen sample of The Guardian happens in guardian_populism.py, which parses through the guardian_articles_with_scores.csv for populist terms as they appear in measuring_populism_dict.csv and generates *Figure 9* and *Figure 10*, which showcase the overall intensity and prevalence of populism in The Guardian per section per period and the intensity and mean happiness score of populist articles respectively.
+
+## Conclusion
+
+The process of examining the happiness trends in The Guardian articles from 2010-2013 and 2020-2023 in sections Politics, Opinion, and World News yielded interesting results. Although the articles' scores hovered relatively close the middle of the 1-9 happiness scale of the hedonometer, the formal neutrality of the journalistic medium may account for this tendency. Keeping that in mind, between the two periods examined, 2020-2023 shows a decrease in happiness compared to 2010-2013. Across periods, Politics appears to be the happiest section, while Opinion seems to be the least happy, perhaps pointing to the paradoxical affect of attachment to a precarious political scene (Berlant 2011), marked by the UK referendum on the Parliamentary Voting System, global optimism in the midst of Barack Obama's US presidency, economic fluctuations in the aftermath of the 2008 financial crash etc. Such varience could be attributed to differences in subgeneric conventions between the three sections, allowing (Opinion: e.g. offering criticism to policy) or inhibiting (Politics: e.g. reporting on policy and reaffirming sovereignty of the government/nation) the use of overall emotionally contested language. Measuring the happiness ofThe Guardian per section per period revealed that both the overall happiest (Politics) and overall saddest (Opinion) section instances were in 2010-2013. Noticing a convergence in happiness scores between Opinion and Politics in 2020-2023, we theorized that while the political reporting may have become grimmer simply by reflecting current events, Opinion pieces becoming happier could indicate less criticism against policy and thus a covert trend to cersorship in favor of the status quo and current regimes of truth. We tested our theory using Rooduijn and Pauwels's populism dictionary (2011), demostrating that there is an overall increase in the prevalence and intensity of populist rhetoric in all sections of our sample in 2020-2023 compared to 2010-2012. More so, the mean happiness score of populist articles in categories Opinion and Politics increased. In the case of Politics, such an increase is not matched by the tendency of the whole section over time, meaning that with populist political article got happier in 2020-2023, Politics became sadder. Of the three populist sections, World News saw a relatively sharp decline in happiness, cautiously confirming our assumption that The Guardian moved towards a more nation-centered model of emotional variation.
 
 ## Credits and role
 
