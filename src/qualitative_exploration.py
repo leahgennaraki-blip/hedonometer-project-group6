@@ -59,7 +59,7 @@ word_exhibit = pd.DataFrame({
 print("Word exhibit:\n", word_exhibit)
 print(word_exhibit.columns)
 
-save_csv(word_exhibit, "labmt_word_exhibit", index=False)
+save_csv(word_exhibit, "labmt_word_exhibit.csv", index=False)
 
 vp_tbl = very_positive[["word", "happiness_average"]]
 vn_tbl = very_negative[["word", "happiness_average"]]

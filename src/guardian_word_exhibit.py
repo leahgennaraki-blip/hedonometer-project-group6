@@ -51,7 +51,7 @@ word_df["happiness_score"] = word_df["word"].map(word_to_score)
 word_df["happiness_std"] = word_df["word"].map(word_to_std)
 
 print(word_df)
-save_csv(word_df, "guardian_word_scores", index=False)
+save_csv(word_df, "guardian_word_scores.csv", index=False)
 
 word_df = word_df.dropna(subset=["happiness_score"])
 
@@ -105,7 +105,7 @@ word_exhibit = pd.DataFrame({
 print("Word exhibit:\n", word_exhibit)
 print(word_exhibit.columns)
 
-save_csv(word_exhibit, "guardian_word_exhibit", index=False)
+save_csv(word_exhibit, "guardian_word_exhibit.csv", index=False)
 
 vp_tbl = very_positive[["word", "happiness_score"]]
 vn_tbl = very_negative[["word", "happiness_score"]]

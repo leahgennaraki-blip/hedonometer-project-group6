@@ -58,54 +58,54 @@ def save_figure(filename: str, dpi: int = 200) -> None:
 
 def analyse_happiness_distribution(df: pd.DataFrame) -> None:
     """
-    对 happiness_average 做分布分析：
-    - 计算基本统计量（count, mean, median, std, p05, p95）
-    - 画直方图并保存到 figures/
-    - 把统计量存到 tables/
-    Analyze the distribution of happiness_average:
+    Analyse the distribution of happiness_average:
     - Calculate basic statistics (count, mean, median, std, p05, p95)
-    - Plot histogram and save to figures/
+    - Plot density histogram with KDE and vertical lines for mean and ±1 SD
     - Save statistics to tables/
     """
     print_section("2.1 Distribution of happiness_average")
 
-    # 取出 happiness_average 列，并去掉缺失值
-    # Extract the happiness_average column and remove missing values.
     h = df["happiness_average"].dropna()
 
-    # 1) 用 DataFrame 形式整理 summary statistics（方便保存和打印）
-    # 1) Organize summary statistics using DataFrame format (for easy saving and printing)
+    # Summary statistics
     summary_stats = pd.DataFrame(
         {
-            "metric": [
-                "count",
-                "mean",
-                "median",
-                "std",
-                "p05 (5th percentile)",
-                "p95 (95th percentile)",
-            ],
-            "value": [
-                float(h.shape[0]),
-                float(h.mean()),
-                float(h.median()),
-                float(h.std()),
-                float(h.quantile(0.05)),
-                float(h.quantile(0.95)),
-            ],
+            "metric": ["count", "mean", "median", "std", "p05 (5th percentile)", "p95 (95th percentile)"],
+            "value": [h.count(), h.mean(), h.median(), h.std(), h.quantile(0.05), h.quantile(0.95)],
         }
     )
-
     print(summary_stats.to_string(index=False))
     save_csv(summary_stats, "happiness_average_summary_stats.csv", index=False)
 
-    # 2) 直方图：描述 happiness_average 的分布
-    # 2) Histogram: describe the distribution of happiness_average
+    # Plot: density histogram + KDE
     plt.figure()
-    plt.hist(h, bins=40, edgecolor="black")
+    sns.histplot(h, bins=40, kde=True, stat='density', alpha=0.6, color='skyblue', edgecolor='black')
     plt.title("Distribution of happiness average (labMT 1.0)", fontweight='bold')
     plt.xlabel("Happiness average (1–9)")
-    plt.ylabel("Number of words")
+    plt.ylabel("Density")
+
+    # Add vertical lines for mean and ±1 SD
+    mean_val = summary_stats.loc[summary_stats["metric"] == "mean", "value"].values[0]
+    std_val = summary_stats.loc[summary_stats["metric"] == "std", "value"].values[0]
+
+    plt.axvline(mean_val, color='red', linestyle='-', linewidth=2, label='Mean')
+    plt.axvline(mean_val - std_val, color='darkred', linestyle='--', linewidth=1.5, label='Mean ± 1 SD')
+    plt.axvline(mean_val + std_val, color='darkred', linestyle='--', linewidth=1.5)
+
+    # Add text box with summary stats
+    stats_text = (
+        f"n = {summary_stats.loc[0, 'value']:.0f}\n"
+        f"Mean = {summary_stats.loc[1, 'value']:.2f}\n"
+        f"Median = {summary_stats.loc[2, 'value']:.2f}\n"
+        f"Std = {summary_stats.loc[3, 'value']:.2f}\n"
+        f"5th %ile = {summary_stats.loc[4, 'value']:.2f}\n"
+        f"95th %ile = {summary_stats.loc[5, 'value']:.2f}"
+    )
+    plt.gca().text(0.05, 0.95, stats_text, transform=plt.gca().transAxes,
+                   fontsize=9, verticalalignment='top',
+                   bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+
+    plt.legend()
     plt.tight_layout()
     save_figure("hist_happiness_average.png")
     plt.close()
@@ -143,12 +143,27 @@ def analyse_disagreement(df: pd.DataFrame) -> None:
     plt.title("Disagreement vs score: happiness average vs standard deviation", fontweight='bold')
     plt.xlabel("Happiness average")
     plt.ylabel("Happiness standard deviation")
+
+    # 2) 标记标准差最大的 15 个词
+    # 2) Annotate the 15 words with highest standard deviation
+    top_contested = scatter_df.nlargest(15, "happiness_standard_deviation")
+    for _, row in top_contested.iterrows():
+        plt.annotate(
+            row["word"],
+            (row["happiness_average"], row["happiness_standard_deviation"]),
+            fontsize=7,
+            alpha=0.7,
+            xytext=(5, 5),
+            textcoords='offset points',
+            arrowprops=dict(arrowstyle='->', color='gray', lw=0.5)
+        )
+
     plt.tight_layout()
     save_figure("scatter_happiness_vs_std.png")
     plt.close()
 
-    # 2) 找出标准差最大的 15 个词（争议度最高）
-    # 2) Find the 15 words with largest standard deviation (most contested)
+    # 3) 找出标准差最大的 15 个词（争议度最高）并保存
+    # 3) Find the 15 words with largest standard deviation (most contested) and save
     most_contested_15 = (
         scatter_df.sort_values("happiness_standard_deviation", ascending=False)
         .head(15)
@@ -158,39 +173,39 @@ def analyse_disagreement(df: pd.DataFrame) -> None:
     print(most_contested_15.to_string(index=False))
 
     save_csv(most_contested_15, "top_15_contested_words.csv", index=False)
-    
-    # EXTRA: Corpus unique word rankings and disagreement
-    
+
+    # ---------------------------------------------------------------------
+    # EXTRA: Corpus unique word rankings and disagreement (unchanged)
+    # ---------------------------------------------------------------------
     print_section("Extra: Disagreement and ranking plot for copus unique words")
     # Base columns we need
     base_cols = ["word", "happiness_average", "happiness_standard_deviation"]
     rank_cols = ["twitter_rank", "google_rank", "nyt_rank", "lyrics_rank"]
-    
+
     # Corpus display names and info
     corpus_info = [
-        {'name': 'Twitter', 'column': 'twitter_rank', 'color': '#1DA1F2', 
+        {'name': 'Twitter', 'column': 'twitter_rank', 'color': '#1DA1F2',
          'filename': 'unique_twitter_words_rank_colored.png', 'title': 'Words only in Twitter'},
-        {'name': 'Google', 'column': 'google_rank', 'color': '#4285F4', 
+        {'name': 'Google', 'column': 'google_rank', 'color': '#4285F4',
          'filename': 'unique_google_words_rank_colored.png', 'title': 'Words only in Google'},
-        {'name': 'NYT', 'column': 'nyt_rank', 'color': '#000000', 
+        {'name': 'NYT', 'column': 'nyt_rank', 'color': '#000000',
          'filename': 'unique_nyt_words_rank_colored.png', 'title': 'Words only in NYT'},
-        {'name': 'Lyrics', 'column': 'lyrics_rank', 'color': '#1DB954', 
+        {'name': 'Lyrics', 'column': 'lyrics_rank', 'color': '#1DB954',
          'filename': 'unique_lyrics_words_rank_colored.png', 'title': 'Words only in Lyrics'}
     ]
-    
+
     # Create DataFrame with all needed columns
     plot_df = df[base_cols + rank_cols].copy()
-    
+
     # Drop rows where happiness values are missing
     plot_df = plot_df.dropna(subset=["happiness_average", "happiness_standard_deviation"])
-    
+
     # Convert rank columns to numeric (errors='coerce' turns '--' into NaN)
     for col in rank_cols:
         plot_df[col] = pd.to_numeric(plot_df[col], errors='coerce')
-    
+
     # Count how many corpora each word appears in
     plot_df['n_corpora'] = plot_df[rank_cols].notna().sum(axis=1)
-
 
     # Scatter plot: average happiness vs standard deviation -> words in only one corpus and their frequency
     # Create separate plots for each corpus
@@ -198,38 +213,25 @@ def analyse_disagreement(df: pd.DataFrame) -> None:
     for corpus in corpus_info:
         # Words that are ONLY in this corpus (appear in exactly 1 corpus AND that corpus is this one)
         only_in_this = (
-            (plot_df['n_corpora'] == 1) & 
+            (plot_df['n_corpora'] == 1) &
             (plot_df[corpus['column']].notna())
         )
 
-        # All words that are in this corpus
-        # words_in_corpus = plot_df[corpus['column']].notna()
-        
         # Get the unique words for this corpus
-        unique_words = plot_df[only_in_this].copy() # change variable name according to previous line
-        
+        unique_words = plot_df[only_in_this].copy()
+
         # Create the plot
         plt.figure(figsize=(10, 8))
 
         # Plot unique words colored by rank (lower rank = darker color)
         if len(unique_words) > 0:
-            # For rank: lower number = more frequent = darker color
-            # We'll invert the rank so that frequent words (rank 1) get darkest color
-            max_rank = 5000  # Since ranks go up to 5000
-            
-            # Create a color map: darker = more frequent (lower rank)
-            
-            # Normalize rank to 0-1 range, but invert so frequent = 1, rare = 0:
-            # norm_rank = 1 - (unique_words[corpus['column']] / max_rank)
-            
             actual_ranks = unique_words[corpus['column']]
 
             scatter = plt.scatter(
                 unique_words["happiness_average"],
                 unique_words["happiness_standard_deviation"],
                 s=50,
-                alpha=1, # fixed alpha for normalised
-                # alpha=opacity,
+                alpha=1,
                 c=actual_ranks,
                 cmap='PuRd_r',  # _r for reversed
                 edgecolors='lightgrey',
@@ -240,27 +242,24 @@ def analyse_disagreement(df: pd.DataFrame) -> None:
             # Add colorbar
             cbar = plt.colorbar(scatter)
             cbar.set_label('Frequency rank (low number = more frequent)', fontsize=10)
-            
-            # Create custom legend entries for rank ranges
+
             n_unique = len(unique_words)
-            
-            # Add annotation with rank stats
             median_rank = unique_words[corpus['column']].median()
             min_rank = unique_words[corpus['column']].min()
             max_rank_val = unique_words[corpus['column']].max()
 
-            plt.text(0.02, 0.09, 
+            plt.text(0.02, 0.09,
                      f'Unique words: {n_unique}\nRank range: {min_rank:.0f} - {max_rank_val:.0f}\nMedian rank: {median_rank:.0f}',
                      transform=plt.gca().transAxes,
                      verticalalignment='top',
                      bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
-        
-            plt.title(f"{corpus['title']}\nColored by frequency rank (darker = more frequent)", 
-                 fontsize=14, fontweight='bold')
+
+            plt.title(f"{corpus['title']}\nColored by frequency rank (darker = more frequent)",
+                      fontsize=14, fontweight='bold')
         else:
             plt.title(f"{corpus['title']}\nNo unique words found", fontsize=14, fontweight='bold')
-            plt.text(0.5, 0.5, f"No words unique to {corpus['name']}", 
-                 ha='center', va='center', fontsize=14, transform=plt.gca().transAxes)
+            plt.text(0.5, 0.5, f"No words unique to {corpus['name']}",
+                     ha='center', va='center', fontsize=14, transform=plt.gca().transAxes)
         plt.xlabel("Happiness average", fontsize=12)
         plt.ylabel("Happiness standard deviation", fontsize=12)
         plt.grid(True, alpha=0.3)
@@ -268,8 +267,8 @@ def analyse_disagreement(df: pd.DataFrame) -> None:
         save_figure(corpus['filename'])
         plt.close()
         print(f"Saved: {corpus['filename']} with {len(unique_words)} unique words")
-# ----- end of code for extra figures -----
-        
+    # ----- end of extra code -----
+
     return most_contested_15
 
 

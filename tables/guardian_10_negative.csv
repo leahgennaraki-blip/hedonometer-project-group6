@@ -1,0 +1,11 @@
+word,happiness_score,happiness_std,category
+terrorist,1.3,0.9091,very negative
+suicide,1.3,0.8391,very negative
+rape,1.44,0.7866,very negative
+terrorism,1.48,0.9089,very negative
+murder,1.48,1.015,very negative
+cancer,1.54,1.073,very negative
+death,1.54,1.2811,very negative
+died,1.56,1.198,very negative
+kill,1.56,1.0529,very negative
+killed,1.56,1.2316,very negative

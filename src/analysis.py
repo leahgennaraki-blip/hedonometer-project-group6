@@ -39,6 +39,7 @@ Methodology:
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from pathlib import Path
 
 
@@ -70,7 +71,7 @@ def bootstrap_diff(data1, data2, n_boot=10000, return_all=False):
 
 
 def plot_mean_ci(df, save_path):
-    """Generate point+error bar plot of mean happiness by section and period with 95% CI."""
+    """Generate point+error bar plot with periods offset."""
     grouped = df.groupby(["section_name", "period"])["happiness"]
     ci_data = []
     for (section, period), group in grouped:
@@ -82,13 +83,24 @@ def plot_mean_ci(df, save_path):
         ci_data.append((section, period, group.mean(), ci_low, ci_high))
 
     ci_df = pd.DataFrame(ci_data, columns=["section", "period", "mean", "ci_low", "ci_high"])
-    # Plot
+
+    # Map sections to numeric positions
+    sections = ci_df["section"].unique()
+    y_pos = {s: i for i, s in enumerate(sections)}
+    dodge = 0.2  # offset between periods
+
     plt.figure(figsize=(8,5))
-    for period in ci_df["period"].unique():
+    periods = ci_df["period"].unique()
+    for i, period in enumerate(periods):
         subset = ci_df[ci_df["period"] == period]
-        plt.errorbar(subset["mean"], subset["section"],
+        # Determine offset: first period gets -dodge, second gets +dodge
+        offset = -dodge if i == 0 else dodge
+        y_vals = [y_pos[s] + offset for s in subset["section"]]
+        plt.errorbar(subset["mean"], y_vals,
                      xerr=[subset["mean"]-subset["ci_low"], subset["ci_high"]-subset["mean"]],
                      fmt='o', label=period, capsize=4)
+
+    plt.yticks(range(len(sections)), sections)
     plt.xlabel("Mean happiness (with 95% CI)")
     plt.ylabel("Section")
     plt.title("Mean happiness by section and period with 95% CI")
@@ -99,42 +111,70 @@ def plot_mean_ci(df, save_path):
     plt.show()
 
 def plot_bootstrap_means_density(df, group_var, period_var, value_col, save_path, n_boot=10000):
-    """
-    Plot density of bootstrapped means for each group defined by group_var and period_var.
-    If period_var is None, groups are only by group_var (ignoring period).
-    """
+    """Plot histogram of bootstrapped means with KDE overlay for each group."""
     groups = df[group_var].unique()
     periods = df[period_var].unique() if period_var else [None]
-    
+
+    # Determine colour mapping based on the grouping
+    if group_var == 'period_pooled':
+        # By period only: use standard period colours
+        color_map = {
+            '2010-2013': 'blue',
+            '2020-2023': 'orange'
+        }
+    elif period_var is None:
+        # By section only: use distinct colours for sections
+        section_colors = {
+            'World news': 'blue',
+            'Politics': 'green',
+            'Opinion': 'orange'
+        }
+        color_map = {g: section_colors.get(g, 'gray') for g in groups}
+    else:
+        # By section and period: use light/dark per section
+        color_map = {
+            ('World news', '2010-2013'): 'steelblue',
+            ('World news', '2020-2023'): 'darkblue',
+            ('Politics', '2010-2013'): 'lightgreen',
+            ('Politics', '2020-2023'): 'darkgreen',
+            ('Opinion', '2010-2013'): 'lightsalmon',
+            ('Opinion', '2020-2023'): 'darkorange',
+        }
+
     plt.figure(figsize=(8,5))
-    
+
     for period in periods:
         for group in groups:
             if period:
                 data = df[(df[group_var] == group) & (df[period_var] == period)][value_col].values
                 label = f"{group} ({period})"
+                key = (group, period)
             else:
                 data = df[df[group_var] == group][value_col].values
                 label = group
+                key = group
             if len(data) < 5:
                 print(f"Not enough data for {label}, skipping.")
                 continue
-            
+
             # Bootstrap means
             boot_means = [np.mean(np.random.choice(data, size=len(data), replace=True)) for _ in range(n_boot)]
-            
-            # Plot density
-            plt.hist(boot_means, bins=40, density=True, alpha=0.3, label=label)  # density=True for probability density
-    
+
+            # Get colour
+            color = color_map.get(key, 'gray')
+            # Histogram (bars) with colour
+            plt.hist(boot_means, bins=40, density=True, alpha=0.5, color=color, edgecolor='black', linewidth=0.5)
+            # KDE overlay (same colour)
+            sns.kdeplot(boot_means, color=color, linewidth=1.5, label=label)
+
     plt.xlabel(f"Bootstrapped mean happiness")
     plt.ylabel("Density")
     plt.title(f"Bootstrap distributions of means\nby {group_var}" + (f" and {period_var}" if period_var else ""))
     plt.legend()
     plt.tight_layout()
     plt.savefig(save_path)
+    plt.close()
     print(f"Saved bootstrap means density plot to {save_path}")
-    plt.show()
-
 
 def plot_bootstrap_distribution(boot_diffs, observed_diff, ci_low, ci_high, save_path):
     """Plot histogram of bootstrap differences with CI and observed difference."""
@@ -155,6 +195,119 @@ def plot_bootstrap_distribution(boot_diffs, observed_diff, ci_low, ci_high, save
     print(f"Saved bootstrap distribution plot to {save_path}")
     plt.show()
 
+# ----------------------------------------------------------------------
+# Combined plots for comparisons
+# ----------------------------------------------------------------------
+
+def plot_combined_comparison1(boot_diffs, diff_mean, ci_low, ci_high, data_2010, data_2020, save_path):
+    """Combined plot: histogram of differences + density of period means."""
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    
+    # Left: bootstrap distribution of difference
+    axes[0].hist(boot_diffs, bins=40, alpha=0.7, color='skyblue', edgecolor='black')
+    axes[0].axvline(diff_mean, color='red', linestyle='-', linewidth=2, label=f'Observed diff = {diff_mean:.3f}')
+    axes[0].axvline(ci_low, color='darkblue', linestyle='--', linewidth=2, label=f'2.5% CI = {ci_low:.3f}')
+    axes[0].axvline(ci_high, color='darkblue', linestyle='--', linewidth=2, label=f'97.5% CI = {ci_high:.3f}')
+    axes[0].set_xlabel('Bootstrap difference (2020‑23 minus 2010‑13)')
+    axes[0].set_ylabel('Frequency')
+    axes[0].set_title('Bootstrap distribution of overall period difference')
+    axes[0].legend()
+    
+    # Right: bootstrap densities of means for the two periods
+    boot_means_2010 = [np.mean(np.random.choice(data_2010, size=len(data_2010), replace=True)) for _ in range(10000)]
+    boot_means_2020 = [np.mean(np.random.choice(data_2020, size=len(data_2020), replace=True)) for _ in range(10000)]
+    axes[1].hist(boot_means_2010, bins=40, density=True, alpha=0.4, label='2010-13', color='blue')
+    axes[1].hist(boot_means_2020, bins=40, density=True, alpha=0.4, label='2020-23', color='orange')
+    axes[1].set_xlabel('Bootstrapped mean happiness')
+    axes[1].set_ylabel('Density')
+    axes[1].set_title('Bootstrap distributions of period means')
+    axes[1].legend()
+    
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
+    print(f"Saved combined comparison 1 plot to {save_path}")
+
+def plot_combined_comparison2(data_by_section, sections, save_path):
+    """3‑panel figure with bootstrap distributions of differences for each pair."""
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+    pairs = [(0,1), (0,2), (1,2)]
+    for i, (i1, i2) in enumerate(pairs):
+        sec1, sec2 = sections[i1], sections[i2]
+        # Bootstrap differences (sec2 - sec1)
+        diffs = []
+        for _ in range(10000):
+            boot1 = np.random.choice(data_by_section[sec1], size=len(data_by_section[sec1]), replace=True)
+            boot2 = np.random.choice(data_by_section[sec2], size=len(data_by_section[sec2]), replace=True)
+            diffs.append(boot2.mean() - boot1.mean())
+        diff_mean = np.mean(diffs)
+        ci_low = np.percentile(diffs, 2.5)
+        ci_high = np.percentile(diffs, 97.5)
+        axes[i].hist(diffs, bins=40, alpha=0.7, color='skyblue', edgecolor='black')
+        axes[i].axvline(diff_mean, color='red', linestyle='-', linewidth=2, label=f'Mean diff = {diff_mean:.3f}')
+        axes[i].axvline(ci_low, color='darkblue', linestyle='--', linewidth=2, label=f'2.5% CI = {ci_low:.3f}')
+        axes[i].axvline(ci_high, color='darkblue', linestyle='--', linewidth=2, label=f'97.5% CI = {ci_high:.3f}')
+        axes[i].set_xlabel(f'{sec2} minus {sec1}')
+        axes[i].set_ylabel('Frequency')
+        axes[i].set_title(f'{sec1} vs {sec2}')
+        axes[i].legend()
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
+    print(f"Saved combined comparison 2 plot to {save_path}")
+
+def plot_combined_comparison3(df, save_path):
+    """Combine bootstrap densities (section×period) and point+CI plot."""
+    from scipy.stats import gaussian_kde  # import here for clarity
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+    
+    # Left: bootstrap densities
+    groups = df.groupby(["section_name", "period"])["happiness"]
+    # Colour mapping for section-period groups
+    colors = {
+        ('World news', '2010-2013'): 'blue',
+        ('World news', '2020-2023'): 'navy',
+        ('Politics', '2010-2013'): 'green',
+        ('Politics', '2020-2023'): 'darkgreen',
+        ('Opinion', '2010-2013'): 'orange',
+        ('Opinion', '2020-2023'): 'darkorange'
+    }
+    for (section, period), group in groups:
+        if len(group) < 5:
+            continue
+        boot_means = [np.mean(np.random.choice(group, size=len(group), replace=True)) for _ in range(10000)]
+        ax1.hist(boot_means, bins=40, density=True, alpha=0.3,
+                 color=colors.get((section, period), 'gray'),
+                 label=f'{section} {period}')
+    ax1.set_xlabel('Bootstrapped mean happiness')
+    ax1.set_ylabel('Density')
+    ax1.set_title('Bootstrap distributions of means')
+    ax1.legend()
+    
+    # Right: point+CI plot
+    ci_data = []
+    for (section, period), group in groups:
+        if len(group) < 5:
+            continue
+        boot_means = [np.mean(np.random.choice(group, size=len(group), replace=True)) for _ in range(5000)]
+        ci_low = np.percentile(boot_means, 2.5)
+        ci_high = np.percentile(boot_means, 97.5)
+        ci_data.append((section, period, group.mean(), ci_low, ci_high))
+    ci_df = pd.DataFrame(ci_data, columns=["section", "period", "mean", "ci_low", "ci_high"])
+    for period in ci_df["period"].unique():
+        subset = ci_df[ci_df["period"] == period]
+        ax2.errorbar(subset["mean"], subset["section"],
+                     xerr=[subset["mean"]-subset["ci_low"], subset["ci_high"]-subset["mean"]],
+                     fmt='o', label=period, capsize=4)
+    ax2.set_xlabel("Mean happiness (with 95% CI)")
+    ax2.set_ylabel("Section")
+    ax2.set_title("Mean happiness by section and period")
+    ax2.legend()
+    
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
+    print(f"Saved combined comparison 3 plot to {save_path}")
 
 def main():
     # 1. Load and prepare data
@@ -186,6 +339,13 @@ def main():
     print(f"95% Bootstrap CI = [{ci_lo_overall:.3f}, {ci_hi_overall:.3f}]")
     print()
 
+    # Compute Cohen's d for overall period difference
+    n1, n2 = len(data_2010), len(data_2020)
+    var1, var2 = np.var(data_2010, ddof=1), np.var(data_2020, ddof=1)
+    pooled_sd = np.sqrt(((n1-1)*var1 + (n2-1)*var2) / (n1+n2-2))
+    cohens_d = diff_overall / pooled_sd
+    print(f"Cohen's d = {cohens_d:.3f}")
+
     # Plot the bootstrap distribution
     plot_bootstrap_distribution(boot_diffs, diff_overall, ci_lo_overall, ci_hi_overall,
                                 Path("figures/bootstrap_period_difference.png"))
@@ -196,9 +356,12 @@ def main():
     print("COMPARISON 2: Pairwise differences between sections")
     for i, sec1 in enumerate(sections):
         for sec2 in sections[i+1:]:
-            diff, ci_lo, ci_hi = bootstrap_diff(data_by_section[sec1], data_by_section[sec2])
-            print(f"{sec1} vs {sec2}: difference = {diff:.3f}  [95% CI {ci_lo:.3f}, {ci_hi:.3f}]")
+            diff, ci_lo, ci_hi, boot_diffs = bootstrap_diff(data_by_section[sec1], data_by_section[sec2], return_all=True)
+            prob_sec2_gt_sec1 = np.mean(boot_diffs > 0)
+            print(f"{sec1} vs {sec2}: difference = {diff:.3f}  [95% CI {ci_lo:.3f}, {ci_hi:.3f}]  Pr({sec2} > {sec1}) = {prob_sec2_gt_sec1:.3f}")
     print()
+
+
 
     # 5. Period difference within each section
     print("COMPARISON 3: Period difference within each section")
@@ -208,9 +371,10 @@ def main():
         if len(data_2010_sec) < 5 or len(data_2020_sec) < 5:
             print(f"{sec}: insufficient data (n<5)")
             continue
-        diff, ci_lo, ci_hi = bootstrap_diff(data_2010_sec, data_2020_sec)
-        print(f"{sec}: change = {diff:.3f}  [95% CI {ci_lo:.3f}, {ci_hi:.3f}]")
-    print()
+        # Use return_all=True to get the full bootstrap array
+        diff, ci_lo, ci_hi, boot_diffs = bootstrap_diff(data_2010_sec, data_2020_sec, n_boot=10000, return_all=True)
+        prob_2020_gt_2010 = np.mean(boot_diffs > 0)
+        print(f"{sec}: change = {diff:.3f}  [95% CI {ci_lo:.3f}, {ci_hi:.3f}]  Pr(2020‑23 > 2010‑13) = {prob_2020_gt_2010:.3f}")
 
     # 6. Point+error plot
     plot_mean_ci(df, Path("figures/mean_ci_by_section_period.png"))
@@ -245,8 +409,9 @@ def main():
             data_2010_sec = df[(df["section_name"] == sec) & (df["period"] == "2010-2013")]["happiness"].values
             data_2020_sec = df[(df["section_name"] == sec) & (df["period"] == "2020-2023")]["happiness"].values
             if len(data_2010_sec) >= 5 and len(data_2020_sec) >= 5:
-                diff, ci_lo, ci_hi = bootstrap_diff(data_2010_sec, data_2020_sec)
-                f.write(f"{sec}: change = {diff:.3f} [95% CI {ci_lo:.3f}, {ci_hi:.3f}]\n")
+                diff, ci_lo, ci_hi, boot_diffs = bootstrap_diff(data_2010_sec, data_2020_sec, return_all=True)
+                prob = np.mean(boot_diffs > 0)
+                f.write(f"{sec}: change = {diff:.3f} [95% CI {ci_lo:.3f}, {ci_hi:.3f}]  Pr(2020‑23 > 2010‑13) = {prob:.3f}\n")
         f.write("\nCoverage:\n")
         f.write(coverage.round(3).to_string())
 
@@ -262,12 +427,19 @@ def main():
                                  value_col="happiness", 
                                  save_path=Path("figures/bootstrap_means_by_section.png"))
     
-        # 11. NEW: Inferential density: bootstrap means by period (pooled across sections)
+     # 11. NEW: Inferential density: bootstrap means by period (pooled across sections)
     df_period_pooled = df.copy()
     df_period_pooled["period_pooled"] = df_period_pooled["period"]  # use period as grouping variable
     plot_bootstrap_means_density(df_period_pooled, group_var="period_pooled", period_var=None,
                                  value_col="happiness",
                                  save_path=Path("figures/bootstrap_means_by_period_pooled.png"))
+    # Combined plots
+    plot_combined_comparison1(boot_diffs, diff_overall, ci_lo_overall, ci_hi_overall,
+                            data_2010, data_2020,
+                            Path("figures/combined_comparison1.png"))
+    plot_combined_comparison2(data_by_section, sections,
+                            Path("figures/combined_comparison2.png"))
+    plot_combined_comparison3(df, Path("figures/combined_comparison3.png"))
 
 
 if __name__ == "__main__":

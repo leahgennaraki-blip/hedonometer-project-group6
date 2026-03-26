@@ -1,10 +1,22 @@
 # src/plot_happiness.py
 from pathlib import Path
+# from analysis import plot_ridgeline_with_stats
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+import numpy as np
 
+def add_mean_sd(ax, data, color, label, alpha=0.4, linewidth=1.5):
+    """Add vertical lines for mean and mean ± SD."""
+    mean = np.mean(data)
+    sd = np.std(data, ddof=1)
+    ax.axvline(mean, color=color, linestyle='-', linewidth=linewidth, alpha=alpha,
+               label=f'Mean ({label})')
+    ax.axvline(mean - sd, color=color, linestyle=':', linewidth=linewidth, alpha=alpha,
+               label=f'Mean - SD ({label})')
+    ax.axvline(mean + sd, color=color, linestyle=':', linewidth=linewidth, alpha=alpha,
+               label=f'Mean + SD ({label})')
 
 def main():
     data_path = Path("data/processed/guardian_articles_with_scores.csv")
@@ -74,28 +86,106 @@ def main():
     else:
         print("Not enough data for section density plot (World news/Politics/Opinion).")
 
-    # === 图 3：按 section + period 的箱线图（基于过滤后的数据） ===
-    # Plot 3: Boxplot by section and period (using filtered data)
-    if not df_sections_filtered.empty:
-        plt.figure(figsize=(10, 6))
-        sns.boxplot(
-            data=df_sections_filtered,
-            x="section_name",
-            y="happiness",
-            hue="period",
-        )
-        plt.xticks(rotation=45, ha="right")
-        plt.title("Happiness by section and period (World news, Politics, Opinion)")
-        plt.xlabel("Section")
-        plt.ylabel("Happiness score")
-        plt.legend(title="Period")
-        out3 = figures_dir / "happiness_by_section_and_period_boxplot.png"
-        plt.tight_layout()
-        plt.savefig(out3, dpi=300)
-        plt.close()
-        print(f"Saved {out3}")
-    else:
-        print("Not enough data for boxplot.")
+    # === 图 3：Intersection plot ===
+    # Replace boxplot\
+
+    # =========================================
+    # Test: Violin plot for comparison 3 (one per section, both periods)
+    # =========================================
+
+    # fig, axes = plt.subplots(3, 1, figsize=(8, 10), sharex=True)
+    # for ax, section in zip(axes, target_sections):
+    #     df_section = df[df["section_name"] == section]
+    #     if df_section.empty:
+    #         continue
+    #     sns.violinplot(data=df_section, x="happiness", y="period", hue="period",
+    #                 split=True, inner="quartile", palette="Set2", ax=ax,
+    #                 legend=False, orient='h', width=10, cut=0)
+    #     ax.set_title(section)
+    #     ax.set_ylabel("Period")
+    #     ax.set_xlabel("Happiness score")
+    #     ax.set_yticks([])  # remove y-ticks because periods are shown in legend
+    # # Add a custom legend for the periods
+    # from matplotlib.lines import Line2D
+    # legend_elements = [
+    #     Line2D([0], [0], color='#66c2a5', lw=4, label='2010-13'),
+    #     Line2D([0], [0], color='#fc8d62', lw=4, label='2020-23')
+    # ]
+    # axes[0].legend(handles=legend_elements, title='Period', loc='upper right')
+    # plt.tight_layout()
+    # out_violin = figures_dir / "happiness_violin_by_section_horizontal_split.png"
+    # plt.savefig(out_violin, dpi=300)
+    # plt.close()
+    # print(f"Saved split violin plot to {out_violin}")
+
+    fig, axes = plt.subplots(3, 1, figsize=(10, 12), sharex=True)
+    period_colors = {'2010-2013': 'blue', '2020-2023': 'orange'}
+
+    for ax, section in zip(axes, target_sections):
+        df_section = df[df["section_name"] == section]
+        if df_section.empty:
+            continue
+        # Plot densities for each period
+        for period in df["period"].unique():
+            data_period = df_section[df_section["period"] == period]["happiness"].values
+            if len(data_period) >= 5:
+                sns.kdeplot(x=data_period, label=period,
+                            common_norm=False, fill=True, alpha=0.5, ax=ax,
+                            color=period_colors[period])
+        # Add mean ± SD lines (no legend labels)
+        for period in df["period"].unique():
+            data_period = df_section[df_section["period"] == period]["happiness"].values
+            if len(data_period) >= 5:
+                mean = np.mean(data_period)
+                sd = np.std(data_period, ddof=1)
+                ax.axvline(mean, color=period_colors[period], linestyle='-', linewidth=1.5, alpha=1)
+                ax.axvline(mean - sd, color=period_colors[period], linestyle=':', linewidth=1.6, alpha=1)
+                ax.axvline(mean + sd, color=period_colors[period], linestyle=':', linewidth=1.6, alpha=1)
+        # Set labels with larger font
+        ax.set_title(section, fontsize=14)
+        ax.set_xlabel("Happiness score", fontsize=13)
+        ax.set_ylabel("Density", fontsize=13)
+        ax.tick_params(axis='both', labelsize=12)
+
+    # Create a combined legend for the top subplot
+    from matplotlib.patches import Patch
+    from matplotlib.lines import Line2D
+
+    legend_handles = [
+        Patch(facecolor=period_colors['2010-2013'], alpha=0.4, label='2010-13'),
+        Patch(facecolor=period_colors['2020-2023'], alpha=0.4, label='2020-23'),
+        Line2D([0], [0], color='black', linestyle='-', linewidth=1.2, label='Mean'),
+        Line2D([0], [0], color='black', linestyle=':', linewidth=1.2, label='Mean ± SD')
+    ]
+    axes[0].legend(handles=legend_handles, title='Legend', loc='upper left', fontsize=11)
+
+    plt.tight_layout()
+    out3 = figures_dir / "happiness_by_section_and_period_boxplot.png.png"
+    plt.savefig(out3, dpi=300)
+    plt.close()
+    print(f"Saved {out3}")
+
+    # # Plot 3: Boxplot by section and period (using filtered data)
+    # if not df_sections_filtered.empty:
+    #     plt.figure(figsize=(10, 6))
+    #     sns.boxplot(
+    #         data=df_sections_filtered,
+    #         x="section_name",
+    #         y="happiness",
+    #         hue="period",
+    #     )
+    #     plt.xticks(rotation=45, ha="right")
+    #     plt.title("Happiness by section and period (World news, Politics, Opinion)")
+    #     plt.xlabel("Section")
+    #     plt.ylabel("Happiness score")
+    #     plt.legend(title="Period")
+    #     out3 = figures_dir / "happiness_by_section_and_period_boxplot.png"
+    #     plt.tight_layout()
+    #     plt.savefig(out3, dpi=300)
+    #     plt.close()
+    #     print(f"Saved {out3}")
+    # else:
+    #     print("Not enough data for boxplot.")
 
     # （可选）之前的条形图现在不再需要，已注释掉
     # (Optional) The previous bar plot is no longer needed – commented out
