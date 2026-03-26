@@ -1,5 +1,6 @@
 # src/plot_happiness.py
 from pathlib import Path
+from analysis import plot_ridgeline
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -74,28 +75,32 @@ def main():
     else:
         print("Not enough data for section density plot (World news/Politics/Opinion).")
 
-    # === 图 3：按 section + period 的箱线图（基于过滤后的数据） ===
-    # Plot 3: Boxplot by section and period (using filtered data)
-    if not df_sections_filtered.empty:
-        plt.figure(figsize=(10, 6))
-        sns.boxplot(
-            data=df_sections_filtered,
-            x="section_name",
-            y="happiness",
-            hue="period",
-        )
-        plt.xticks(rotation=45, ha="right")
-        plt.title("Happiness by section and period (World news, Politics, Opinion)")
-        plt.xlabel("Section")
-        plt.ylabel("Happiness score")
-        plt.legend(title="Period")
-        out3 = figures_dir / "happiness_by_section_and_period_boxplot.png"
-        plt.tight_layout()
-        plt.savefig(out3, dpi=300)
-        plt.close()
-        print(f"Saved {out3}")
-    else:
-        print("Not enough data for boxplot.")
+    # === 图 3：Ridgeline plot ===
+    # Replace boxplot with ridgeline plot
+    plot_ridgeline(df, figures_dir / "happiness_ridgeline.png")
+
+    # # === 图 3：按 section + period 的箱线图（基于过滤后的数据） ===
+    # # Plot 3: Boxplot by section and period (using filtered data)
+    # if not df_sections_filtered.empty:
+    #     plt.figure(figsize=(10, 6))
+    #     sns.boxplot(
+    #         data=df_sections_filtered,
+    #         x="section_name",
+    #         y="happiness",
+    #         hue="period",
+    #     )
+    #     plt.xticks(rotation=45, ha="right")
+    #     plt.title("Happiness by section and period (World news, Politics, Opinion)")
+    #     plt.xlabel("Section")
+    #     plt.ylabel("Happiness score")
+    #     plt.legend(title="Period")
+    #     out3 = figures_dir / "happiness_by_section_and_period_boxplot.png"
+    #     plt.tight_layout()
+    #     plt.savefig(out3, dpi=300)
+    #     plt.close()
+    #     print(f"Saved {out3}")
+    # else:
+    #     print("Not enough data for boxplot.")
 
     # （可选）之前的条形图现在不再需要，已注释掉
     # (Optional) The previous bar plot is no longer needed – commented out

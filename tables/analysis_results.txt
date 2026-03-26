@@ -16,17 +16,17 @@ World news   2010-2013   18.0  5.897  0.225  5.291  5.797  5.919  6.016  6.235 -
              2020-2023   18.0  5.845  0.319  5.271  5.629  5.850  6.064  6.443 -0.064    -0.491
 
 Comparison 1: Period difference overall
-Mean diff = -0.088, 95% CI [-0.163, -0.013]
+Mean diff = -0.088, 95% CI [-0.164, -0.012]
 
 Comparison 2: Section differences
-World news vs Politics: diff = 0.159 [95% CI 0.058, 0.262]
-World news vs Opinion: diff = -0.057 [95% CI -0.167, 0.054]
-Politics vs Opinion: diff = -0.214 [95% CI -0.298, -0.132]
+World news vs Politics: diff = 0.157 [95% CI 0.058, 0.261]
+World news vs Opinion: diff = -0.056 [95% CI -0.162, 0.053]
+Politics vs Opinion: diff = -0.216 [95% CI -0.298, -0.135]
 
 Comparison 3: Period difference within each section
-World news: change = -0.051 [95% CI -0.228, 0.122]
-Politics: change = -0.127 [95% CI -0.226, -0.028]
-Opinion: change = 0.117 [95% CI -0.013, 0.248]
+World news: change = -0.052 [95% CI -0.225, 0.127]
+Politics: change = -0.129 [95% CI -0.227, -0.031]
+Opinion: change = 0.117 [95% CI -0.009, 0.246]
 
 Coverage:
 period        2010-2013  2020-2023
