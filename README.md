@@ -378,9 +378,9 @@ Figure 6 displays the distributions by section (ignoring period). Politics artic
 ![Density of happiness by section](figures/happiness_distribution_by_section.png)  
 ***Figure 6:** Density plot of happiness scores for World news, Politics, and Opinion (both periods pooled).*
 
-Figure 7 presents boxplots for each section‑period group, highlighting medians, quartiles, and outliers. The decrease in Politics over time is evident, while Opinion appears to increase slightly.
+Figure 7 presents a ridgeline plot for each section‑period group, showing the distribution of happiness scores. The decrease in Politics over time is evident, while Opinion appears to increase slightly.
 
-![Boxplot of happiness by section and period](figures/happiness_by_section_and_period_boxplot.png)  
+![Ridgeline plot of happiness by section and period](figures/happiness_by_section_and_period_boxplot.png)  
 ***Figure 7:** Ridgeline plot showing the distribution of happiness scores for each section‑period group.*
 
 ### Inferential Statistics
@@ -663,7 +663,7 @@ Regarding the entirety of our sample of The Guardian, the intensity of populism 
 
 By focusing on the populist articles per section per period, we can gauge what the aforementioned trends mean for the subset of articles in question (*Figure 15*). Such a 'zooming in' is meant to supplement and help with the interpretation of the populism measurements in the overall sample. Populism intensity of populist articles in Politics and World News shows an increase of approximately 1 and 1.5 words per 1000 words respectively (*Figure 15:* Left Panel). Given the moderate increase in the intensity and prevalence of populism in both categories relating to the entire sample (*Figure 14*), such a trend seems logical. However, what we consider particularly worth mentioning is that the intensity of populism in populist Opinion articles experienced a drop of about 0.7 per 1000 words (*Figure 15:* Left Panel), meaning that while more articles in 2020-2023 contained at least one populist term (*Figure 14:* Right Panel), that upsurge was mitigated by a lower subset intensity.
 
-In addition to reporting on populist tendencies in The Guardian, the right panel in *Figure 15* relates populist articles to their mean happiness scores, as measured using the labMT 1.0 dataset. Overall, the happiness of populist articles seems to converge in 2020-2023, with the happiest section, namely 2010-2013 World News, showing a 0.3 drop in the 1-9 scale in 2020-2023. Although the populist Opinions section in 2010-2013 appears to be the least happy instance in the data, it also appears to have seen the sharpest increase in happiness, becomign the happiest one in 2020-2023. The increase in populist Politics articles' happiness is limited to the second decimal, marking a steady emotional register through the years. 
+In addition to reporting on populist tendencies in The Guardian, the right panel in *Figure 15* relates populist articles to their mean happiness scores, as measured using the labMT 1.0 dataset. Overall, the happiness of populist articles seems to converge in 2020-2023, with the happiest section, namely 2010-2013 World News, showing a 0.3 drop in the 1-9 scale in 2020-2023. Although the populist Opinions section in 2010-2013 appears to be the least happy instance in the data, it also appears to have seen the sharpest increase in happiness, becoming the happiest one in 2020-2023. The increase in populist Politics articles' happiness is limited to the second decimal, marking a steady emotional register through the years. 
 
 ![Intensity and Mean Happiness Score in articles with >= 1 populist term](figures/fig_populism_populist_articles_pointline.png)  
 ***Figure 15:** The Intensity of populist terms and Mean Happiness Score of articles with at least one populist term.*
